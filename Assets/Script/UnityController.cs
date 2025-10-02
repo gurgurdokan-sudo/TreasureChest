@@ -3,7 +3,6 @@ using UnityEngine;
 public class UnityController : MonoBehaviour
 {
     Animator animator;
-    CharacterController cc;
     Vector3 lookDirection;
     public float speed = 1.0f;
 
@@ -19,10 +18,7 @@ public class UnityController : MonoBehaviour
         
         animator.SetFloat("Speed", Mathf.Max(vertical,Mathf.Abs(rot)));
         transform.Rotate(0, rot * 150.0f * Time.deltaTime,0);
-
         transform.position += transform.forward*vertical*speed*Time.deltaTime;
-        // cc.Move (transform.forward * vertical * speed  * Time.deltaTime);
-
 
         lookDirection = transform.forward;
         if (Input.GetKeyDown(KeyCode.X))
