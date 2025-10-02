@@ -3,6 +3,7 @@ using UnityEngine;
 public class UnityController : MonoBehaviour
 {
     Animator animator;
+    CharacterController cc;
     Vector3 lookDirection;
     public float speed = 1.0f;
 
@@ -13,13 +14,15 @@ public class UnityController : MonoBehaviour
 
     void Update()
     {
-        float horizontal = Input.GetAxis("Horizontal");//横方向
-        float vertical = Input.GetAxis("Vertical");//縦方向
-        Vector3 position = transform.position;
-        position.x = position.x+speed- horizontal * Time.deltaTime;
-        position.z = position.z+speed- vertical * Time.deltaTime;
-        transform.position = position;
-        animator.SetFloat("Speed", Mathf.Max(position.x,position.z));
+        float rot = Input.GetAxis("Horizontal");//回転
+        float vertical = Input.GetAxis("Vertical");//進行方向
+        
+        animator.SetFloat("Speed", Mathf.Max(vertical,Mathf.Abs(rot)));
+        transform.Rotate(0, rot * 150.0f * Time.deltaTime,0);
+
+        transform.position += transform.forward*vertical*speed*Time.deltaTime;
+        // cc.Move (transform.forward * vertical * speed  * Time.deltaTime);
+
 
         lookDirection = transform.forward;
         if (Input.GetKeyDown(KeyCode.X))
