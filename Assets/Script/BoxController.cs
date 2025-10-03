@@ -5,17 +5,9 @@ using System.Collections.Generic;
 
 public class BoxController : MonoBehaviour
 {
-    public Transform lidTransform;// フタのTransform
-    public float openAngle = -100f; // 開くときの角度（x軸）
-    public float duration = 1.5f;
-
-    private bool isOpen = false;
-
-    private float time;  // 次の動きまでの時間を管理する変数
-    private float vecX;  // X軸方向の移動先座標
-    private float vecZ;  // Z軸方向の移動先座標
-
-    public Transform center;
+    
+    public Transform centerleft;
+    public Transform centerright;
     public Transform[] chest;
 
 
@@ -25,74 +17,39 @@ public class BoxController : MonoBehaviour
     {
         Application.targetFrameRate = 60;
 
-        ParentSet(chest[0], chest[1]);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        Open();
+        
         //Turn();
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            ParentSetLeft(chest[0], chest[1]);
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            ParentSetRight(chest[2], chest[1]);
+        }
         if (Input.GetKeyDown(KeyCode.D))
         {
-            ExitParent(chest[0],chest[1]);
+            ExitParent(chest[0], chest[1]);
         }
 
     }
-    public void Turn()
+    
+
+    void ParentSetLeft(Transform c1, Transform c2)
     {
-
-        // 毎フレーム時間を減少させる
-        time -= Time.deltaTime;
-
-        // 時間が0以下になったら新しい座標を設定
-        if (time <= 0)
-        {
-            // X軸とZ軸の移動先をランダムに設定
-            vecX = Random.Range(-2.71f, 2.71f);
-            vecZ = Random.Range(0f, 0f);
-
-            // オブジェクトを新しい位置に移動
-            this.transform.position = new Vector3(vecX, 0.5f, vecZ);
-
-            // 次の動きまでの時間をリセット
-            time = 1.0f;
-        }
-
+        c1.SetParent(centerleft, true);
+        c2.SetParent(centerleft, true);
     }
-
-    /* public void ToggleLid()
-     {
-         if (isOpen)
-         {
-             Close();
-         }
-         else
-         {
-             Open();
-         }
-     }
-     */
-
-    public void Open()
+    void ParentSetRight(Transform c3, Transform c2)
     {
-        lidTransform.DOLocalRotate(new Vector3(openAngle, 0, 0), duration)
-            .SetEase(Ease.OutCubic);
-        isOpen = true;
-        //transform.Rotate(-100, 0, 0);
-    }
-
-    public void Close()
-    {
-        lidTransform.DOLocalRotate(Vector3.zero, duration)
-              .SetEase(Ease.InCubic);
-        isOpen = false;
-    }
-
-    void ParentSet(Transform c1, Transform c2)
-    {
-        c1.SetParent(center, true);
-        c2.SetParent(center, true);
+        c3.SetParent(centerright, true);
+        c2.SetParent(centerright, true);
     }
 
     void ExitParent(Transform c1, Transform c2)
