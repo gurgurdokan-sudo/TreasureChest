@@ -26,7 +26,7 @@ public class TextMov : MonoBehaviour
     }
     public void FadeIn()
     {
-        
+
         canPanel.alpha = 0f;
         canPanel.DOFade(1, 1);
     }
@@ -35,9 +35,12 @@ public class TextMov : MonoBehaviour
 
     public void FadeOut()
     {
-     
+
         canPanel.alpha = 0.5f;
-        canPanel.DOFade(0, 0.5f);
-       
+        canPanel.DOFade(0, 1.0f);
+
     }
+    
+
+    
 }
