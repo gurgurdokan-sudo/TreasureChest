@@ -31,6 +31,12 @@ public class UnityController : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 2f))
             {
                 Debug.Log("当たった相手：" + hit.collider.name);
+                BoxController box = hit.transform.GetComponent<BoxController>();
+                Debug.Log("test:" + box);
+                if (box != null)
+                {
+                    box.Open();
+                }
             }
             Debug.DrawRay(ray.origin, ray.direction * 2.0f, Color.red, 1f);
         }

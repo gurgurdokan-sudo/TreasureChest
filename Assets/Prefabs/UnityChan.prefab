@@ -2492,7 +2492,7 @@ GameObject:
   - component: {fileID: -9039383845435690021}
   - component: {fileID: -8338304992990397816}
   m_Layer: 0
-  m_Name: Utc_win_humanoid
+  m_Name: UnityChan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

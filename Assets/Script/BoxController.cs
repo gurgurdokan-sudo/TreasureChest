@@ -28,8 +28,8 @@ public class BoxController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Open();
-        //Turn();
+        // Open();
+        Turn();
         
     }
     public void Turn()
