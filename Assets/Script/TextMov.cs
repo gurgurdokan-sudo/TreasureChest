@@ -6,19 +6,28 @@ public class TextMov : MonoBehaviour
 {
     public TextMeshProUGUI readyTxt;
     public GameObject Panel;
+    public CanvasGroup canPanel;
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Panel.transform.DOFade(0, 0).
-        readyTxt = GetComponent<TextMeshProUGUI>();
-
-        readyTxt.DOFade(0, 0);
-        DOTweenT
+        FadeIn();
+        FadeOut();
+    }
+    public void FadeIn()
+    {
+        canPanel.alpha = 0f;
+        canPanel.DOFade(1, 3);
     }
 
-    public void SettingPanel() {
-        Panel.SetActive(true);
+
+
+    public void FadeOut()
+    {
+        canPanel.alpha = 1f;
+        canPanel.DOFade(0, 3);
+
     }
 }
