@@ -23,7 +23,7 @@ public class BoxController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
         //Turn();
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -37,6 +37,10 @@ public class BoxController : MonoBehaviour
         {
             ExitParent(chest[0], chest[1]);
         }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            ExitParent(chest[2], chest[1]);
+        }
 
     }
     
@@ -46,9 +50,9 @@ public class BoxController : MonoBehaviour
         c1.SetParent(centerleft, true);
         c2.SetParent(centerleft, true);
     }
-    void ParentSetRight(Transform c3, Transform c2)
+    void ParentSetRight(Transform c1, Transform c2)
     {
-        c3.SetParent(centerright, true);
+        c1.SetParent(centerright, true);
         c2.SetParent(centerright, true);
     }
 
