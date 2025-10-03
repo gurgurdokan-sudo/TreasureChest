@@ -14,7 +14,9 @@ public class LifePanel : MonoBehaviour
     {
          if (Input.GetKeyDown(KeyCode.A))
         {
-            UpdateLife(0);
+            int a = Random.Range(0, 4);
+            Debug.Log(a);
+            UpdateLife(a);
             Debug.Log("input");
         }
     }
@@ -34,7 +36,7 @@ public class LifePanel : MonoBehaviour
 
         icons[i].SetActive(false);
         sr.DOFade(0f, 1.0f).SetEase(Ease.OutBounce);
-        Debug.Log("ok");
+        
         }
 
     }
