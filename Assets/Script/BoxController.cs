@@ -15,14 +15,17 @@ public class BoxController : MonoBehaviour
     private float vecX;  // X軸方向の移動先座標
     private float vecZ;  // Z軸方向の移動先座標
 
+    public Transform center;
+    public Transform[] chest;
 
-    
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Application.targetFrameRate = 60;
-        
-        
+
+        ParentSet(chest[0], chest[1]);
     }
 
     // Update is called once per frame
@@ -30,12 +33,16 @@ public class BoxController : MonoBehaviour
     {
         Open();
         //Turn();
-        
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            ExitParent(chest[0],chest[1]);
+        }
+
     }
     public void Turn()
     {
-        
-    // 毎フレーム時間を減少させる
+
+        // 毎フレーム時間を減少させる
         time -= Time.deltaTime;
 
         // 時間が0以下になったら新しい座標を設定
@@ -54,18 +61,18 @@ public class BoxController : MonoBehaviour
 
     }
 
-   /* public void ToggleLid()
-    {
-        if (isOpen)
-        {
-            Close();
-        }
-        else
-        {
-            Open();
-        }
-    }
-    */
+    /* public void ToggleLid()
+     {
+         if (isOpen)
+         {
+             Close();
+         }
+         else
+         {
+             Open();
+         }
+     }
+     */
 
     public void Open()
     {
@@ -77,8 +84,20 @@ public class BoxController : MonoBehaviour
 
     public void Close()
     {
-      lidTransform.DOLocalRotate(Vector3.zero, duration)
-            .SetEase(Ease.InCubic);
+        lidTransform.DOLocalRotate(Vector3.zero, duration)
+              .SetEase(Ease.InCubic);
         isOpen = false;
+    }
+
+    void ParentSet(Transform c1, Transform c2)
+    {
+        c1.SetParent(center, true);
+        c2.SetParent(center, true);
+    }
+
+    void ExitParent(Transform c1, Transform c2)
+    {
+        c1.SetParent(transform, true);
+        c2.SetParent(transform, true);
     }
 }
