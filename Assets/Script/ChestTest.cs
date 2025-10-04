@@ -1,6 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
-using NUnit.Framework;
+using System.Linq;
 
 public class ChestTest : MonoBehaviour
 {
@@ -17,27 +17,27 @@ public class ChestTest : MonoBehaviour
     }
     public void ShuffleRandomSelect()
     {
-        int random = Random.Range(0, 3);
+        int random = Random.Range(1, 2);
         Sequence seq = DOTween.Sequence();
         Debug.Log(random);
         switch (random)
         {
             case 0:
                 seq.Append(ParentSet(chests[0], chests[1], centerSides[0]));
-                seq.Append(ParentSet(chests[0], chests[1], centerSides[0]));
                 seq.Append(ParentSet(chests[0], chests[2], centerSides[2]));
+                seq.Append(ParentSet(chests[0], chests[1], centerSides[1]));
                 break;
             case 1:
-                seq.Append(ParentSet(chests[1], chests[2], centerSides[1]));
+                seq.Append(ParentSet(chests[0], chests[2], centerSides[1]));
                 seq.Append(ParentSet(chests[0], chests[1], centerSides[2]));
                 break;
             case 2:
-                seq.Append(ParentSet(chests[0], chests[2], centerSides[2]));
-                seq.Append(ParentSet(chests[2], chests[1], centerSides[0]));
+                seq.Append(ParentSet(chests[1], chests[2], centerSides[3]));
+                seq.Append(ParentSet(chests[2], chests[0], centerSides[0]));
                 seq.Append(ParentSet(chests[2], chests[1], centerSides[0]));
                 break;
         }
-        seq.OnComplete(() => { isCaseOver = true; Debug.Log("シャッフル完了"); });
+        seq.OnComplete(() => { chests = chests.OrderBy(c => c.position.x).ToArray(); isCaseOver = true; Debug.Log("シャッフル完了"); });
         seq.Play();
     }
     Sequence ParentSet(Transform c1, Transform c2, Transform parent)
@@ -49,6 +49,7 @@ public class ChestTest : MonoBehaviour
             c2.SetParent(parent,true);
         });
         seq.Append(Lotation(parent));
+        seq.AppendInterval(0.3f); //Parentが置き換わるまで待機
         seq.AppendCallback(() =>
         {
             c1.SetParent(transform,true);

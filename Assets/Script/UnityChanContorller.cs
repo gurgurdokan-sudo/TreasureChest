@@ -1,5 +1,5 @@
 using UnityEngine;
-public class CharacterController : MonoBehaviour
+public class UnityChanContorller : MonoBehaviour
 {
     Animator animator;
     Vector3 lookDirection;

@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 public class Manager : MonoBehaviour
 {
-    public CharacterController unityChanContorller;
+    public UnityChanContorller unityChanContorller;
     public TextMeshProUGUI scoreText;
     public BoxOpen[] boxColltroller;
     public ChestTest chestTest;//シャッフル
@@ -64,7 +64,6 @@ public class Manager : MonoBehaviour
         /*Rayが打たれて*/
         if (!maneg()) openFull();
         else Debug.Log("true");
-
     }
 
 }
