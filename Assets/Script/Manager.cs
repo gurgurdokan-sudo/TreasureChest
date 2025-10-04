@@ -5,38 +5,27 @@ using UnityEngine.TerrainTools;
 using NUnit.Framework;
 using System.Xml.Serialization;
 
-public class manager : MonoBehaviour
+public class Manager : MonoBehaviour
 {
-    public UnityController un;
+    public CharacterController unityChanContorller;
     public TextMeshProUGUI scoreText;
+    public BoxOpen[] boxColltroller;
+    public ChestTest chestTest;//シャッフル
 
-    public BoxController[] boxColl;
-    public ChestTest chestTest;
-
-
-    //un open
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    /*flog*/
+    public bool testOk=false;
+    public bool testNg=false;
     void Start()
     {
         scoreText = GetComponent<TextMeshProUGUI>();
-
-        boxColl = boxColl[0].GetComponent<BoxController[]>();
-
         chestTest = chestTest.GetComponent<ChestTest>();
-
-
-
-        // isFlag = boxColl.GetIsOpen();
-
-
-
     }
 
     public bool maneg()
     {
-        for (int i = 0; i < boxColl.Length; i++)
+        for (int i = 0; i < boxColltroller.Length; i++)
         {
-            if (boxColl[i].GetIsOpen())
+            if (boxColltroller[i].IsOpen())
             {
                 return true;
             }
@@ -45,25 +34,24 @@ public class manager : MonoBehaviour
     }
     void openFull()
     {
-        for (int i = 0; i < boxColl.Length; i++)
+        for (int i = 0; i < boxColltroller.Length; i++)
         {
-            boxColl[i].Open();
+            boxColltroller[i].Open();
         }
-
     }
-     void closeFull()
+    void closeFull()
     {
-        for (int i = 0; i < boxColl.Length; i++)
+        for (int i = 0; i < boxColltroller.Length; i++)
         {
-            boxColl[i].Close();
+            boxColltroller[i].Close();
         }
-
     }
-    // Update is called once per frame
     void Update()
     {
-
-        Game();
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Game();
+        }
 
     }
 
@@ -71,19 +59,12 @@ public class manager : MonoBehaviour
     {
         openFull();
         closeFull();
-        chestTest.lotation();
-        if (!maneg())
-        {
-            openFull();
-        }
-        else
-        {
-            Debug.Log("true");
-        }
-        
+        chestTest.ShuffleRandomSelect();
 
-    
+        /*Rayが打たれて*/
+        if (!maneg()) openFull();
+        else Debug.Log("true");
 
     }
-    
+
 }

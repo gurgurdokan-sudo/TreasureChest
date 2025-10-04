@@ -1,59 +1,66 @@
 using UnityEngine;
 using DG.Tweening;
+using NUnit.Framework;
 
 public class ChestTest : MonoBehaviour
 {
-    
-    Transform lid;
-    public Transform[] Chests;
-    
-    public Transform _target;
-    public Transform centerLeft;
-    public Transform centerRight;
-    void Start()
-    {
-        lid = GetComponent<Transform>().GetChild(0).GetChild(2);
-        
-    }
+    public Transform[] chests;//宝箱の配列
+    public Transform[] centerSides;//統合
+    bool isCaseOver=false;
+    public bool IsCaseOver() { return isCaseOver; }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            Open();
-        }
         if (Input.GetKeyDown(KeyCode.A))
-        {
-            Lotation(gameObject);
-            LotationSide(centerLeft);
-
+        {//test用
+            ShuffleRandomSelect();
         }
-        if (Input.GetKeyDown(KeyCode.S))
+    }
+    public void ShuffleRandomSelect()
+    {
+        int random = Random.Range(0, 3);
+        Sequence seq = DOTween.Sequence();
+        Debug.Log(random);
+        switch (random)
         {
-            
-            LotationSide(centerRight);
-
+            case 0:
+                seq.Append(ParentSet(chests[0], chests[1], centerSides[0]));
+                seq.Append(ParentSet(chests[0], chests[1], centerSides[0]));
+                seq.Append(ParentSet(chests[0], chests[2], centerSides[2]));
+                break;
+            case 1:
+                seq.Append(ParentSet(chests[1], chests[2], centerSides[1]));
+                seq.Append(ParentSet(chests[0], chests[1], centerSides[2]));
+                break;
+            case 2:
+                seq.Append(ParentSet(chests[0], chests[2], centerSides[2]));
+                seq.Append(ParentSet(chests[2], chests[1], centerSides[0]));
+                seq.Append(ParentSet(chests[2], chests[1], centerSides[0]));
+                break;
         }
-        
-        Turn();
+        seq.OnComplete(() => { isCaseOver = true; Debug.Log("シャッフル完了"); });
+        seq.Play();
     }
-    public void Open()
+    Sequence ParentSet(Transform c1, Transform c2, Transform parent)
     {
-        lid.transform.Rotate(-40f, 0, 0);
-    }
-    public void Lotation(GameObject obj)
-    {
-        gameObject.transform.DOLocalRotate(new Vector3(0, 180f, 0), 5f, RotateMode.FastBeyond360);
-    }
-    public void LotationSide(Transform obj)
-    {
-        obj.transform.DOLocalRotate(new Vector3(0, 180f, 0), 5f, RotateMode.FastBeyond360);
-    }
-    
-    public void Turn()
-    {
-        Chests[0].LookAt(_target);
-        Chests[1].LookAt(_target);
-        Chests[2].LookAt(_target);
+        Sequence seq = DOTween.Sequence();
+        seq.AppendCallback(() =>
+        {
+            c1.SetParent(parent,true);
+            c2.SetParent(parent,true);
+        });
+        seq.Append(Lotation(parent));
+        seq.AppendCallback(() =>
+        {
+            c1.SetParent(transform,true);
+            c2.SetParent(transform,true);
+        });
 
+    Sequence Lotation(Transform obj)
+    {
+        Sequence seq = DOTween.Sequence();
+        seq.Append(obj.DOLocalRotate(new Vector3(0, 180f, 0), 1f, RotateMode.LocalAxisAdd));
+        return seq;
+    }
+        return seq;
     }
 }
