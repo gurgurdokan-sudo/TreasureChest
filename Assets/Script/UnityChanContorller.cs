@@ -37,6 +37,7 @@ public class UnityChanContorller : MonoBehaviour
                     if (hit.collider.name == "hit") manager.testOk =true;
                     else manager.testNg = true;
                 }
+                
             }
             Debug.DrawRay(ray.origin, ray.direction * 2.0f, Color.red, 1f);
         }
