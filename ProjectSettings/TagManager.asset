@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - atari
+  - hit
   layers:
   - Default
   - TransparentFX
