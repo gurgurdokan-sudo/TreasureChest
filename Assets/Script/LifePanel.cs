@@ -6,19 +6,20 @@ using Unity.VisualScripting;
 public class LifePanel : MonoBehaviour
 {
     public GameObject[] icons;
-    public bool test = true;
-
+    
     
   
     void Update()
-    {
+    {   /*
          if (Input.GetKeyDown(KeyCode.A))
         {
             int a = Random.Range(0, 4);
             Debug.Log(a);
             UpdateLife(a);
             Debug.Log("input");
+            
         }
+        */
     }
 
     public void UpdateLife(int life)
