@@ -30,7 +30,7 @@ public class UnityChanContorller : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 2f))
             {
                 Debug.Log("当たった相手：" + hit.collider.name);
-                BoxOpen box = GetComponent<BoxOpen>();
+                
                 if (!box.IsOpen())
                 {
                     box.Open();
