@@ -6,7 +6,7 @@ public class BoxOpen : MonoBehaviour
     public Transform _target;//カメラを設定
     public Transform lidTransform;// フタのTransform
     public float openAngle = -40f; // 開くときの角度（x軸）
-    public float duration = 1.5f;
+    public float duration = 1f;
     private bool isOpen = false;
     public bool IsOpen() {return isOpen;}
     void Update()
