@@ -30,13 +30,14 @@ public class UnityChanContorller : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 2f))
             {
                 Debug.Log("当たった相手：" + hit.collider.name);
-                
+                /*
                 if (!box.IsOpen())
                 {
                     box.Open();
                     if (hit.collider.name == "hit") manager.testOk =true;
                     else manager.testNg = true;
                 }
+                */
                 
             }
             Debug.DrawRay(ray.origin, ray.direction * 2.0f, Color.red, 1f);

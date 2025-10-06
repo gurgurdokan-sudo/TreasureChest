@@ -41,44 +41,53 @@ public class ChestTest : MonoBehaviour
         switch (random)
         {
             case 0:
-                seq.Append(ParentSet(chests[0], chests[1], centerSides[0]));
-                seq.Append(ParentSet(chests[0], chests[2], centerSides[2]));
-                seq.Append(ParentSet(chests[0], chests[1], centerSides[1]));
-                seq.Append(ParentSet(chests[2], chests[0], centerSides[1]));
-                seq.Append(ParentSet(chests[0], chests[1], centerSides[2]));
-                break;//2,0,1
+                seq.Append(ParentSet(chests[0], chests[1], centerSides[0]));//102
+                seq.Append(ParentSet(chests[0], chests[2], centerSides[2]));//120
+                seq.Append(ParentSet(chests[0], chests[1], centerSides[1]));//021
+                seq.Append(ParentSet(chests[1], chests[0], centerSides[1]));//120
+                seq.Append(ParentSet(chests[0], chests[2], centerSides[2]));//102
+                
+                break;//1,0,2
             case 1:
-                seq.Append(ParentSet(chests[0], chests[2], centerSides[1]));
-                seq.Append(ParentSet(chests[0], chests[1], centerSides[2]));
-                seq.Append(ParentSet(chests[2], chests[0], centerSides[0]));
-                seq.Append(ParentSet(chests[0], chests[1], centerSides[1]));
-                seq.Append(ParentSet(chests[2], chests[1], centerSides[0]));
+                seq.Append(ParentSet(chests[0], chests[2], centerSides[1]));//210
+                seq.Append(ParentSet(chests[0], chests[1], centerSides[2]));//201
+                seq.Append(ParentSet(chests[2], chests[0], centerSides[0]));//021
+                seq.Append(ParentSet(chests[0], chests[1], centerSides[1]));//120
+                seq.Append(ParentSet(chests[2], chests[1], centerSides[0]));//210
+                 
                 break;//2,1,0
             case 2:
-                seq.Append(ParentSet(chests[1], chests[2], centerSides[2]));
-                seq.Append(ParentSet(chests[2], chests[0], centerSides[0]));
-                seq.Append(ParentSet(chests[0], chests[1], centerSides[2]));
-                seq.Append(ParentSet(chests[2], chests[1], centerSides[0]));
-                seq.Append(ParentSet(chests[0], chests[1], centerSides[1]));
-                break;//0,2,1
+                seq.Append(ParentSet(chests[1], chests[2], centerSides[2]));//021
+                seq.Append(ParentSet(chests[2], chests[0], centerSides[0]));//201
+                seq.Append(ParentSet(chests[0], chests[1], centerSides[2]));//210
+                seq.Append(ParentSet(chests[2], chests[0], centerSides[1]));//012
+                seq.Append(ParentSet(chests[0], chests[1], centerSides[0]));//102
+                 
+                break;//1,0,2
             case 3:
-                seq.Append(ParentSet(chests[0], chests[1], centerSides[0]));
-                seq.Append(ParentSet(chests[2], chests[0], centerSides[2]));
-                seq.Append(ParentSet(chests[2], chests[1], centerSides[0]));
-                seq.Append(ParentSet(chests[2], chests[0], centerSides[1]));
-                break;//0,1,2
+                seq.Append(ParentSet(chests[0], chests[1], centerSides[0]));//012
+                seq.Append(ParentSet(chests[0], chests[2], centerSides[2]));//021
+                seq.Append(ParentSet(chests[0], chests[1], centerSides[1]));//201
+                seq.Append(ParentSet(chests[2], chests[0], centerSides[0]));//021
+                seq.Append(ParentSet(chests[2], chests[0], centerSides[0]));//201
+                seq.Append(ParentSet(chests[2], chests[0], centerSides[0]));//210
+                 
+                
+                break;//0,2,1
             case 4:
-                seq.Append(ParentSet(chests[0], chests[2], centerSides[1]));
-                seq.Append(ParentSet(chests[1], chests[0], centerSides[2]));
-                seq.Append(ParentSet(chests[2], chests[0], centerSides[0]));
-                seq.Append(ParentSet(chests[1], chests[0], centerSides[1]));
+                seq.Append(ParentSet(chests[0], chests[2], centerSides[1]));//210
+                seq.Append(ParentSet(chests[1], chests[0], centerSides[2]));//201
+                seq.Append(ParentSet(chests[2], chests[0], centerSides[0]));//021
+                seq.Append(ParentSet(chests[1], chests[0], centerSides[1]));//120
+                
                 break;//1,2,0
             case 5:
-                seq.Append(ParentSet(chests[1], chests[2], centerSides[2]));
-                seq.Append(ParentSet(chests[2], chests[0], centerSides[0]));
-                seq.Append(ParentSet(chests[2], chests[1], centerSides[1]));
-                seq.Append(ParentSet(chests[2], chests[1], centerSides[1]));
-                seq.Append(ParentSet(chests[2], chests[0], centerSides[0]));
+                seq.Append(ParentSet(chests[1], chests[2], centerSides[2]));//021
+                seq.Append(ParentSet(chests[2], chests[0], centerSides[0]));//201
+                seq.Append(ParentSet(chests[2], chests[1], centerSides[1]));//102
+                seq.Append(ParentSet(chests[2], chests[1], centerSides[1]));//201
+                seq.Append(ParentSet(chests[2], chests[0], centerSides[0]));//021
+                 
                 break;//0,2,1
         }
         seq.OnComplete(() => { chests = chests.OrderBy(c => c.position.x).ToArray(); isCaseOver = true; Debug.Log("シャッフル完了"); });
