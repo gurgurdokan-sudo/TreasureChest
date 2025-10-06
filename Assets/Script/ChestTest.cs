@@ -17,7 +17,7 @@ public class ChestTest : MonoBehaviour
     }
     public void ShuffleRandomSelect()
     {
-        int random = Random.Range(1, 2);
+        int random = Random.Range(0, 6);
         Sequence seq = DOTween.Sequence();
         Debug.Log(random);
         switch (random)
@@ -26,16 +26,33 @@ public class ChestTest : MonoBehaviour
                 seq.Append(ParentSet(chests[0], chests[1], centerSides[0]));
                 seq.Append(ParentSet(chests[0], chests[2], centerSides[2]));
                 seq.Append(ParentSet(chests[0], chests[1], centerSides[1]));
-                break;
+                break;//0,2,1
             case 1:
                 seq.Append(ParentSet(chests[0], chests[2], centerSides[1]));
                 seq.Append(ParentSet(chests[0], chests[1], centerSides[2]));
-                break;
+                break;//2,0,1
             case 2:
-                seq.Append(ParentSet(chests[1], chests[2], centerSides[3]));
+                seq.Append(ParentSet(chests[1], chests[2], centerSides[2]));
                 seq.Append(ParentSet(chests[2], chests[0], centerSides[0]));
+                seq.Append(ParentSet(chests[0], chests[1], centerSides[2]));
+                break;//2,1,0
+            case 3:
+                seq.Append(ParentSet(chests[0], chests[1], centerSides[0]));
+                seq.Append(ParentSet(chests[2], chests[0], centerSides[2]));
                 seq.Append(ParentSet(chests[2], chests[1], centerSides[0]));
-                break;
+                seq.Append(ParentSet(chests[2], chests[0], centerSides[1]));
+                break;//0,1,2
+            case 4:
+                seq.Append(ParentSet(chests[0], chests[2], centerSides[1]));
+                seq.Append(ParentSet(chests[1], chests[0], centerSides[2]));
+                seq.Append(ParentSet(chests[2], chests[0], centerSides[0]));
+                seq.Append(ParentSet(chests[1], chests[0], centerSides[1]));
+                break;//1,2,0
+            case 5:
+                seq.Append(ParentSet(chests[1], chests[2], centerSides[2]));
+                seq.Append(ParentSet(chests[2], chests[0], centerSides[0]));
+                seq.Append(ParentSet(chests[2], chests[1], centerSides[1]));
+                break;//1,0,2
         }
         seq.OnComplete(() => { chests = chests.OrderBy(c => c.position.x).ToArray(); isCaseOver = true; Debug.Log("シャッフル完了"); });
         seq.Play();
