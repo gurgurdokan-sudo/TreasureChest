@@ -212,7 +212,6 @@ GameObject:
   - component: {fileID: 16818133}
   - component: {fileID: 16818132}
   - component: {fileID: 16818134}
-  - component: {fileID: 16818135}
   m_Layer: 5
   m_Name: Life
   m_TagString: Untagged
@@ -296,19 +295,6 @@ MonoBehaviour:
   - {fileID: 1256226686}
   - {fileID: 1074500445}
   - {fileID: 839537101}
---- !u!114 &16818135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 16818130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -591303064, guid: a811bde74b26b53498b4f6d872b09b6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inspectorUpdater: 0
 --- !u!4 &36233468 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7809308894150779527, guid: eaccad14d203fd04687992f9c2437fed, type: 3}
@@ -721,7 +707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc3214af4df0b3949b28a1ee9b60565e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unityChanTransform: {fileID: 0}
+  canPanel: {fileID: 1800532570}
   scoreText: {fileID: 0}
   boxOpens:
   - {fileID: 1453985488}
@@ -1532,7 +1518,6 @@ GameObject:
   - component: {fileID: 1748349583}
   - component: {fileID: 1748349582}
   - component: {fileID: 1748349581}
-  - component: {fileID: 1748349580}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1540,21 +1525,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1748349580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1748349579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7344531c9b7a7e24a881375c1b71a16e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  readyTxt: {fileID: 1754660100}
-  Panel: {fileID: 0}
-  canPanel: {fileID: 1800532570}
 --- !u!114 &1748349581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1784,7 +1754,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1800532573}
   - component: {fileID: 1800532572}
-  - component: {fileID: 1800532571}
   - component: {fileID: 1800532570}
   m_Layer: 5
   m_Name: Panel
@@ -1801,40 +1770,10 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1800532569}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &1800532571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1800532569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 3
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1800532572
 CanvasRenderer:
   m_ObjectHideFlags: 0

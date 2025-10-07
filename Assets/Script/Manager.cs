@@ -9,8 +9,10 @@ using DG.Tweening;
 public class Manager : MonoBehaviour
 {
 
-    public Transform unityChanTransform;
-    Vector3 syoki = new Vector3(0, 0.52f, -6.0f);
+    // public Transform unityChanTransform;
+    // Vector3 syoki = new Vector3(0, 0.52f, -6.0f);
+    public CanvasGroup canPanel;
+    TextMeshProUGUI readyTxt;
     public TextMeshProUGUI scoreText;
     public BoxOpen[] boxOpens;
     public ChestTest chestTest;//シャッフル
@@ -24,6 +26,7 @@ public class Manager : MonoBehaviour
     gameStep currentGameStep = 0;
     void Start()
     {
+        readyTxt = canPanel.GetComponentInChildren<TextMeshProUGUI>();
         // SetTweensCapacity()
         // scoreText = GetComponent<TextMeshProUGUI>();
         // chestTest = chestTest.GetComponent<ChestTest>();
@@ -56,11 +59,20 @@ public class Manager : MonoBehaviour
         sqe.Play();
     }
 
+    void FadeIn()
+    {
+        canPanel.alpha = 0f;
+        canPanel.DOFade(1, 1).SetLoops(1, LoopType.Incremental);
+        canPanel.DOFade(0, 1.0f);
+    }
+
+
     void Update()
     {
         switch (currentGameStep)
         {
             case gameStep.gameStart:
+                readyTxt.text = "Strat";
                 GameStart();
                 currentGameStep++;
                 break;
@@ -77,8 +89,8 @@ public class Manager : MonoBehaviour
     }
     void GameStart()
     {
-        // centerTxetContorller.MessegeStart("Strat");
         Sequence sqe = DOTween.Sequence();
+        sqe.AppendCallback(() => { FadeIn();});
         sqe.AppendInterval(3.0f);
         sqe.AppendCallback(() => FullOpen());
         sqe.AppendInterval(2.0f);
@@ -92,6 +104,7 @@ public class Manager : MonoBehaviour
         if (!testOk && !testNg) return;    //両方選択されずに待機状態
         else if (testOk || testNg)//testOKがtureでtestNGがfalseの時(unityちゃんが正解を選んだ時)
         {
+            if (testNg) LifePanel.instance.UpdateLife(2);
             SingleLidMove(testNg);
             currentGameStep++;
         }

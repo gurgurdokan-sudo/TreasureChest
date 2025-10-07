@@ -5,14 +5,13 @@ using System;
 
 public class TextMov : MonoBehaviour
 {
-    public TextMeshProUGUI readyTxt;
-    public GameObject Panel;
+    TextMeshProUGUI readyTxt;
     public CanvasGroup canPanel;
 
-    public void Start()
+    public void MsgStart(String msg)
     {
         readyTxt = GetComponentInChildren<TextMeshProUGUI>();
-        readyTxt.text="msg";
+        readyTxt.text=msg;
         FadeIn();
         FadeOut();
     }
