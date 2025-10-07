@@ -1,3 +1,5 @@
+using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 public class UnityChanContorller : MonoBehaviour
 {
@@ -14,31 +16,44 @@ public class UnityChanContorller : MonoBehaviour
     {
         float rot = Input.GetAxis("Horizontal");//回転
         float vertical = Input.GetAxis("Vertical");//進行方向
-        
-        animator.SetFloat("Speed", Mathf.Max(vertical,Mathf.Abs(rot)));
-        transform.Rotate(0, rot * 150.0f * Time.deltaTime,0);
-        transform.position += transform.forward*vertical*speed*Time.deltaTime;
+
+        animator.SetFloat("Speed", Mathf.Max(vertical, Mathf.Abs(rot)));
+        transform.Rotate(0, rot * 150.0f * Time.deltaTime, 0);
+        transform.position += transform.forward * vertical * speed * Time.deltaTime;
 
         lookDirection = transform.forward;
         if (Input.GetKeyDown(KeyCode.X))
         {
             Ray ray = new Ray(
-                transform.position+Vector3.up*0.2f,
+                transform.position + Vector3.up * 0.2f,
                 lookDirection
             );
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 2f))
             {
                 Debug.Log("当たった相手：" + hit.collider.name);
-                BoxOpen box = hit.collider.GetComponent<BoxOpen>();                
+                BoxOpen box = hit.collider.GetComponent<BoxOpen>();
                 if (!box.IsOpen())
                 {
                     box.Open();
-                    if (hit.collider.tag == "hit") manager.testOk =true;
-                    else manager.testNg = true;
+                    if (hit.collider.tag == "hit") manager.testOk = true;
+                    else
+                    {
+                        manager.testNg = true;
+                        StartCoroutine(FalseWait());
+                        transform.DOLocalJump(Vector3.back * 2.5f, 1.0f, 2, 1.0f)
+                        .SetRelative();
+                    }
                 }
             }
             Debug.DrawRay(ray.origin, ray.direction * 2.0f, Color.red, 1f);
         }
+    }
+    IEnumerator FalseWait()
+    {
+        yield return new WaitForSeconds(0.5f);
+        animator.SetBool("DownBool", true);
+        yield return new WaitForSeconds(0.3f);
+        animator.SetBool("DownBool", false);
     }
 }

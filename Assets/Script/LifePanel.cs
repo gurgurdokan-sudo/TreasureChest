@@ -6,9 +6,6 @@ using Unity.VisualScripting;
 public class LifePanel : MonoBehaviour
 {
     public GameObject[] icons;
-    
-    
-  
     void Update()
     {   /*
          if (Input.GetKeyDown(KeyCode.A))

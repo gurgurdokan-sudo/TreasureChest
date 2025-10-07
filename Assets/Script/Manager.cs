@@ -9,13 +9,13 @@ using DG.Tweening;
 public class Manager : MonoBehaviour
 {
 
-    public Transform unityChanContorller;
+    public Transform unityChanTransform;
     Vector3 syoki = new Vector3(0, 0.52f, -6.0f);
     public TextMeshProUGUI scoreText;
     public BoxOpen[] boxOpens;
     public ChestTest chestTest;//シャッフル
     /*flog　ゲームの進行を制御するための処理　両方False待機、testOKがtrueの時に進行する*/
-    public bool testOk = false;//開けた処理後の
+    public bool testOk = false;
     public bool testNg = false;
     enum gameStep
     {
@@ -77,11 +77,13 @@ public class Manager : MonoBehaviour
     }
     void GameStart()
     {
+        // centerTxetContorller.MessegeStart("Strat");
         Sequence sqe = DOTween.Sequence();
-        sqe.AppendInterval(2.0f);
+        sqe.AppendInterval(3.0f);
         sqe.AppendCallback(() => FullOpen());
         sqe.AppendInterval(2.0f);
         sqe.AppendCallback(() => FullClose());
+        sqe.AppendInterval(2.0f);
         sqe.AppendCallback(() => chestTest.ShuffleRandomSelect());
         sqe.Play();
     }
