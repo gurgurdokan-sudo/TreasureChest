@@ -108,13 +108,13 @@ public class Manager : MonoBehaviour
         else if (testOk || testNg)
         {
             bool flag=true;
-            if (testNg && flag)
+            if (testNg && flag)//unityちゃんが不正解を選んだ時
             {
                 readyTxt.text = "NG Chast";
                 seq.AppendCallback(() => LifePanel.instance.UpdateLife(life--));
                 flag = false;
-            }//unityちゃんが不正解を選んだ時
-            else if (testOk)
+            }
+            else if (testOk )
             {
                 if (gameLevle < 3) seq.AppendCallback(() => gameLevle++);
                 readyTxt.text = "Great!";
@@ -132,7 +132,7 @@ public class Manager : MonoBehaviour
         unityChanContorller.isMove = false;
         //Levelのカウントアップ/スコア
         if (life > 0) currentGameStep = gameStep.gameStart;//もう一度ゲームステップ
-        else currentGameStep++;
+        else currentGameStep = gameStep.levelCompeete;
     }
     void GameOver()
     {
