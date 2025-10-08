@@ -58,6 +58,8 @@ public class Manager : MonoBehaviour
         sqe.OnComplete(()=> { testNg = false; testOk = false; });
         sqe.Play();
     }
+
+
     void FadeIn()
     {
         canPanel.alpha = 0f;
@@ -109,6 +111,7 @@ public class Manager : MonoBehaviour
             {
             if(gameLevle>3) gameLevle++;
             Debug.Log(gameLevle);
+            
             }
             SingleLidMove(testNg);
             currentGameStep++;
