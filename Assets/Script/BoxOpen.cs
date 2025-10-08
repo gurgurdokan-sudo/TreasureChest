@@ -8,7 +8,7 @@ public class BoxOpen : MonoBehaviour
     public float openAngle = -40f; // 開くときの角度（x軸）
     public float duration = 1f;
     private bool isOpen = false;
-    public bool IsOpen() {return isOpen;}
+    public bool IsOpen() { return isOpen; }
     void Update()
     {
         transform.LookAt(_target);
@@ -16,14 +16,14 @@ public class BoxOpen : MonoBehaviour
     public void Open()
     {
         lidTransform.DOLocalRotate(new Vector3(openAngle, 0, 0), duration)
-            .SetEase(Ease.OutCubic);
-        isOpen = true;
+            .SetEase(Ease.OutCubic)
+            .OnComplete(() => isOpen = true);
     }
 
     public void Close()
     {
         lidTransform.DOLocalRotate(Vector3.zero, duration)
-              .SetEase(Ease.InCubic);
-        isOpen = false;
+            .SetEase(Ease.InCubic)
+            .OnComplete(() => isOpen = false);
     }
 }
