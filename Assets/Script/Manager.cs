@@ -14,12 +14,16 @@ public class Manager : MonoBehaviour
     public UnityChanContorller unityChanContorller;
     public TextMeshProUGUI scoreText;
     public BoxOpen[] boxOpens;
-    public BoxOpen box;
+    //public BoxOpen box;
     public ChestTest chestTest;//シャッフル
+
+    public GameObject hitEffect;   // あたり用エフェクト
+    public GameObject missEffect;  // はずれ用エフェクト
+
 
 
     //仮置き真偽値
-   public bool isCheck=false;
+    public bool isCheck = false;
     /*flog　ゲームの進行を制御するための処理　両方False待機、testOKがtrueの時に進行する*/
     public bool testOk = false;//開けた処理後の
     public bool testNg = false;
@@ -29,8 +33,8 @@ public class Manager : MonoBehaviour
         // SetTweensCapacity()
         scoreText = GetComponent<TextMeshProUGUI>();
         chestTest = chestTest.GetComponent<ChestTest>();
-       
-        BoxLidMove();
+
+        GameStrat();
     }
 
     public bool maneg()
@@ -46,7 +50,7 @@ public class Manager : MonoBehaviour
     }
     void FullOpen()
     {
-        for (int i = 0; i <boxOpens.Length; i++)
+        for (int i = 0; i < boxOpens.Length; i++)
         {
             boxOpens[i].Open();
         }
@@ -55,53 +59,58 @@ public class Manager : MonoBehaviour
     {
         for (int i = 0; i < boxOpens.Length; i++)
         {
-            boxOpens[i].Close();
+            if (boxOpens[i].IsOpen())
+            {
+                boxOpens[i].Close();
+            }
+
         }
     }
 
 
-    void BoxLidMove()
+    void GameStrat()
     {
         Sequence sqe = DOTween.Sequence();
         sqe.AppendCallback(() => FullOpen());
         sqe.AppendInterval(1.0f);
         sqe.AppendCallback(() => FullClose());
+        sqe.AppendInterval(1f);
+        sqe.AppendCallback(() => chestTest.ShuffleRandomSelect());
         sqe.Play();
-
         testNg = false;
     }
-
-    void SingleLidMove()
-    {
-        Sequence sqe = DOTween.Sequence();
-        sqe.AppendCallback(() => box.Open());
-        sqe.AppendInterval(1.0f);
-        sqe.AppendCallback(() => box.Close());
-        sqe.Play();
-
-        testOk = false;
-        
-    }
-
     void Update()
     {
         if (!testOk && !testNg) return;    //両方選択されずに待機状態
-        else if (testOk && !testNg)//testOKがtureでtestNGがfalseの時(unityちゃんが正解を選んだ時)
+        else if (testOk && !testNg)//testOKがtureでtestNGがfalseの時(unityちゃんが正解を選んだ時
         {
-            //isCheck = box.IsOpen();
-            if (isCheck)
-            {
-                    SingleLidMove();
-            }
-        }  
-        else if (!testOk && testNg) BoxLidMove(); //unityちゃんが不正解を選んだ時
-
+            testNg = false;
+            FullClose();
+        }
+        else if (!testOk && testNg)
+        {// GameStrat(); //unityちゃんが不正解を選んだ時
+            FullClose();
+        }
 
 
     }
 
+    void PlayEffect()
+    {
+        if (testOk)
+        {
+            if (hitEffect != null) hitEffect.SetActive(true);
+            Debug.Log("hit");
+        }
+        else if (testNg)
+        {
+            if (missEffect != null) missEffect.SetActive(true);
+            Debug.Log("miss");
+        }
 
 
 
+
+    }
 }
 
