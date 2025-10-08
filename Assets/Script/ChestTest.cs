@@ -7,7 +7,7 @@ public class ChestTest : MonoBehaviour
     public Transform[] chests;//宝箱の配列
     public Transform[] centerSides;//統合
     bool isCaseOver=false;
-    float speed;
+    float speed = 1.0f;
     public bool IsCaseOver() { return isCaseOver; }
     void Update()
     {
