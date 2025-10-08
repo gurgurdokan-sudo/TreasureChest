@@ -1,46 +1,28 @@
 using UnityEngine;
 using DG.Tweening;
 using TMPro;
-using UnityEditor.ShaderGraph;
-using System.Collections;
+using System;
 
 public class TextMov : MonoBehaviour
 {
-    public TextMeshProUGUI readyTxt;
-    public GameObject Panel;
+    TextMeshProUGUI readyTxt;
     public CanvasGroup canPanel;
-    string msg;
 
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-   
-
-
-    void Start()
+    public void MsgStart(String msg)
     {
         readyTxt = GetComponentInChildren<TextMeshProUGUI>();
-        msg = readyTxt.text;
+        readyTxt.text=msg;
         FadeIn();
         FadeOut();
     }
-    public void FadeIn()
+    void FadeIn()
     {
-
         canPanel.alpha = 0f;
         canPanel.DOFade(1, 1);
     }
-
-
-
-    public void FadeOut()
+    void FadeOut()
     {
-
         canPanel.alpha = 0.5f;
         canPanel.DOFade(0, 1.0f);
-
-    }
-    
-
-    
+    } 
 }

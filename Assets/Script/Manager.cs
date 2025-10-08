@@ -5,48 +5,31 @@ using NUnit.Framework;
 using System.Xml.Serialization;
 using UnityEngine.UIElements;
 using DG.Tweening;
-using System.Collections;
-
 
 public class Manager : MonoBehaviour
 {
-
-    public UnityChanContorller unityChanContorller;
-    public TextMeshProUGUI scoreText;
-    public BoxOpen[] boxOpens;
-    //public BoxOpen box;
+    public Transform unityChanTransform;
+    Vector3 syoki = new Vector3(0, 0.52f, -6.0f);
+    public CanvasGroup canPanel;
+    TextMeshProUGUI readyTxt;
+    // public TextMeshProUGUI scoreText;
+    public BoxOpen[] boxOpens;//各Chest
     public ChestTest chestTest;//シャッフル
-
-    public GameObject hitEffect;   // あたり用エフェクト
-    public GameObject missEffect;  // はずれ用エフェクト
-
-
-
-    //仮置き真偽値
-    public bool isCheck = false;
     /*flog　ゲームの進行を制御するための処理　両方False待機、testOKがtrueの時に進行する*/
-    public bool testOk = false;//開けた処理後の
+    public bool testOk = false;
     public bool testNg = false;
-
+    int gameLevle = 1;
+    enum gameStep
+    {
+        gameStart, witeForPlayerSelct, gameResult, levelCompeete
+    }
+    gameStep currentGameStep = 0;
     void Start()
     {
+        readyTxt = canPanel.GetComponentInChildren<TextMeshProUGUI>();
         // SetTweensCapacity()
-        scoreText = GetComponent<TextMeshProUGUI>();
-        chestTest = chestTest.GetComponent<ChestTest>();
-
-        GameStrat();
-    }
-
-    public bool maneg()
-    {
-        for (int i = 0; i < boxOpens.Length; i++)
-        {
-            if (boxOpens[i].IsOpen())
-            {
-                return true;
-            }
-        }
-        return false;
+        // scoreText = GetComponent<TextMeshProUGUI>();
+        // chestTest = chestTest.GetComponent<ChestTest>();
     }
     void FullOpen()
     {
@@ -59,58 +42,83 @@ public class Manager : MonoBehaviour
     {
         for (int i = 0; i < boxOpens.Length; i++)
         {
-            if (boxOpens[i].IsOpen())
-            {
-                boxOpens[i].Close();
-            }
-
+            boxOpens[i].Close();
         }
     }
-
-
-    void GameStrat()
+    void SingleLidMove(bool ng)
     {
         Sequence sqe = DOTween.Sequence();
-        sqe.AppendCallback(() => FullOpen());
         sqe.AppendInterval(1.0f);
+        if (ng)
+        {
+            sqe.AppendCallback(() => FullOpen());
+            sqe.AppendInterval(1.0f);
+        }
         sqe.AppendCallback(() => FullClose());
-        sqe.AppendInterval(1f);
-        sqe.AppendCallback(() => chestTest.ShuffleRandomSelect());
+        sqe.OnComplete(()=> { testNg = false; testOk = false; });
         sqe.Play();
-        testNg = false;
     }
+    void FadeIn()
+    {
+        canPanel.alpha = 0f;
+        canPanel.DOFade(1, 1).SetLoops(1, LoopType.Incremental);
+        canPanel.DOFade(0, 1.0f);
+    }
+
+
     void Update()
     {
-        if (!testOk && !testNg) return;    //両方選択されずに待機状態
-        else if (testOk && !testNg)//testOKがtureでtestNGがfalseの時(unityちゃんが正解を選んだ時
+        switch (currentGameStep)
         {
-            testNg = false;
-            FullClose();
+            case gameStep.gameStart:
+                readyTxt.text = "Strat";
+                GameStart();
+                currentGameStep++;
+                break;
+            case gameStep.witeForPlayerSelct:
+                witeForPlayerSelct();
+                break;
+            case gameStep.gameResult:
+                Resule();
+                break;
+            case gameStep.levelCompeete:
+                //すべてのゲームを完了sendScene?
+                break;
         }
-        else if (!testOk && testNg)
-        {// GameStrat(); //unityちゃんが不正解を選んだ時
-            FullClose();
-        }
-
-
     }
-
-    void PlayEffect()
+    void GameStart()
     {
-        if (testOk)
+        Sequence sqe = DOTween.Sequence();
+        sqe.AppendCallback(() => { FadeIn();});
+        sqe.AppendInterval(3.0f);
+        sqe.AppendCallback(() => FullOpen());
+        sqe.AppendInterval(2.0f);
+        sqe.AppendCallback(() => FullClose());
+        sqe.AppendInterval(2.0f);
+        sqe.AppendCallback(() => chestTest.ShuffleRandomSelect());
+        sqe.OnComplete(() => { currentGameStep++; });
+        sqe.Play();
+    }
+    void witeForPlayerSelct()
+    {
+        if (!testOk && !testNg) return;    //両方選択されずに待機状態
+        else if (testOk || testNg)
         {
-            if (hitEffect != null) hitEffect.SetActive(true);
-            Debug.Log("hit");
+            if (testNg) { LifePanel.instance.UpdateLife(); }//unityちゃんが不正解を選んだ時
+            else if (testOk)
+            {
+            if(gameLevle>3) gameLevle++;
+            Debug.Log(gameLevle);
+            }
+            SingleLidMove(testNg);
+            currentGameStep++;
         }
-        else if (testNg)
-        {
-            if (missEffect != null) missEffect.SetActive(true);
-            Debug.Log("miss");
-        }
-
-
-
-
+    }
+    void Resule()
+    {
+        Debug.Log("test");
+        unityChanTransform.position = syoki;
+        //Levelのカウントアップ/スコア
     }
 }
 
