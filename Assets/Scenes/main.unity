@@ -749,6 +749,7 @@ MonoBehaviour:
   chestTest: {fileID: 953897863}
   testOk: 0
   testNg: 0
+  life: 3
 --- !u!4 &710941154
 Transform:
   m_ObjectHideFlags: 0

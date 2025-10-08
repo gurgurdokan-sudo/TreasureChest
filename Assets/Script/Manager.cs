@@ -5,6 +5,7 @@ using NUnit.Framework;
 using System.Xml.Serialization;
 using UnityEngine.UIElements;
 using DG.Tweening;
+using System.Data.Common;
 
 public class Manager : MonoBehaviour
 {
@@ -43,6 +44,16 @@ public class Manager : MonoBehaviour
     {
         for (int i = 0; i < boxOpens.Length; i++)
         {
+            if (boxOpens[i].IsOpen())
+            {
+                if (testNg)
+                {
+                    //--------------------未完成---------^--------------
+                    transform.DOShakePosition(0.5f, 1f, 45, 1, false, true);
+                   //-------------------------------------------------------
+                }
+            }
+
             boxOpens[i].Close();
         }
     }
