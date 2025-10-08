@@ -13,7 +13,6 @@ public class LifePanel : MonoBehaviour
     }
     public void UpdateLife(int life)
     {
-        life--;
         for (int i = 0; i < icons.Length; i++)
             if (i < life) icons[i].SetActive(true);
             else
