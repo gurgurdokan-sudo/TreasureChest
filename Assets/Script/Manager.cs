@@ -123,7 +123,7 @@ public class Manager : MonoBehaviour
             seq.Append(FadeIn());
         }
         seq.AppendCallback(() => { SingleLidMove(testNg); });
-        seq.OnComplete(() => { currentGameStep++; testOk = false; testOk = false; });
+        seq.OnComplete(() => { currentGameStep++; testOk = false; testOk = false; });//初期化
         seq.Play();
     }
     void Resule()
