@@ -7,6 +7,7 @@ public class UnityChanContorller : MonoBehaviour
     Vector3 lookDirection;
     public float speed = 1.0f;
     public Manager manager;
+    public bool isMove=false;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -14,6 +15,7 @@ public class UnityChanContorller : MonoBehaviour
 
     void Update()
     {
+        if (!isMove) return;
         float rot = Input.GetAxis("Horizontal");//回転
         float vertical = Input.GetAxis("Vertical");//進行方向
 
