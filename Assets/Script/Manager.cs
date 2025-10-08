@@ -76,6 +76,8 @@ public class Manager : MonoBehaviour
                 currentGameStep++;
                 break;
             case gameStep.witeForPlayerSelct:
+                readyTxt.text = "select";
+                FadeIn();
                 witeForPlayerSelct();
                 break;
             case gameStep.gameResult:
@@ -104,20 +106,27 @@ public class Manager : MonoBehaviour
         if (!testOk && !testNg) return;    //両方選択されずに待機状態
         else if (testOk || testNg)
         {
-            if (testNg) { LifePanel.instance.UpdateLife(); }//unityちゃんが不正解を選んだ時
+            if (testNg)
+            {
+                LifePanel.instance.UpdateLife();
+                currentGameStep++;
+            }//unityちゃんが不正解を選んだ時
             else if (testOk)
             {
-            if(gameLevle>3) gameLevle++;
-            Debug.Log(gameLevle);
+                if (gameLevle > 3)
+                {
+                    gameLevle++;
+                    currentGameStep++;
+                }    
+                Debug.Log(gameLevle);
             }
             SingleLidMove(testNg);
-            currentGameStep++;
         }
     }
     void Resule()
     {
         Debug.Log("test");
-        unityChanTransform.position = syoki;
+        // unityChanTransform.position = syoki;
         //Levelのカウントアップ/スコア
     }
 }
