@@ -115,6 +115,7 @@ public class Manager : MonoBehaviour
                 life--;
                 readyTxt.text = "NG Chast";
                 seq.AppendCallback(() => LifePanel.instance.UpdateLife(life));
+                unityChanTransform.position = syoki;
                 testNg = false;
             }//unityちゃんが不正解を選んだ時
             else if (testOk)
