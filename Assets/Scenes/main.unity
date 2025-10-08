@@ -707,8 +707,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc3214af4df0b3949b28a1ee9b60565e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unityChanTransform: {fileID: 1989814448}
   canPanel: {fileID: 1800532570}
-  scoreText: {fileID: 0}
   boxOpens:
   - {fileID: 1453985488}
   - {fileID: 1639431609}
@@ -1908,6 +1908,11 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!4 &1989814448 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 403870, guid: 7e0f7737a40453040a6beb5f9d8a599b, type: 3}
+  m_PrefabInstance: {fileID: 1366563411}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2106664504
 GameObject:
   m_ObjectHideFlags: 0

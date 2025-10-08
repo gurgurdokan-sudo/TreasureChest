@@ -6,13 +6,15 @@ using Unity.VisualScripting;
 public class LifePanel : MonoBehaviour
 {
     public GameObject[] icons;
-    public static LifePanel instance{ get; private set; }
+    private int life = 3;
+    public static LifePanel instance { get; private set; }
     void Awake()
     {
         instance = this;
     }
-    public void UpdateLife(int life)
+    public void UpdateLife()
     {
+        life--;
         for (int i = 0; i < icons.Length; i++)
             if (i < life) icons[i].SetActive(true);
             else

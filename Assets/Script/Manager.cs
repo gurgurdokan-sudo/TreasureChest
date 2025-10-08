@@ -8,20 +8,20 @@ using DG.Tweening;
 
 public class Manager : MonoBehaviour
 {
-
-    // public Transform unityChanTransform;
-    // Vector3 syoki = new Vector3(0, 0.52f, -6.0f);
+    public Transform unityChanTransform;
+    Vector3 syoki = new Vector3(0, 0.52f, -6.0f);
     public CanvasGroup canPanel;
     TextMeshProUGUI readyTxt;
-    public TextMeshProUGUI scoreText;
-    public BoxOpen[] boxOpens;
+    // public TextMeshProUGUI scoreText;
+    public BoxOpen[] boxOpens;//各Chest
     public ChestTest chestTest;//シャッフル
     /*flog　ゲームの進行を制御するための処理　両方False待機、testOKがtrueの時に進行する*/
     public bool testOk = false;
     public bool testNg = false;
+    int gameLevle = 1;
     enum gameStep
     {
-        gameStart, witeForPlayerSelct, gameResult ,levelCompeete
+        gameStart, witeForPlayerSelct, gameResult, levelCompeete
     }
     gameStep currentGameStep = 0;
     void Start()
@@ -58,7 +58,6 @@ public class Manager : MonoBehaviour
         sqe.OnComplete(()=> { testNg = false; testOk = false; });
         sqe.Play();
     }
-
     void FadeIn()
     {
         canPanel.alpha = 0f;
@@ -74,7 +73,6 @@ public class Manager : MonoBehaviour
             case gameStep.gameStart:
                 readyTxt.text = "Strat";
                 GameStart();
-                currentGameStep++;
                 break;
             case gameStep.witeForPlayerSelct:
                 witeForPlayerSelct();
@@ -83,7 +81,7 @@ public class Manager : MonoBehaviour
                 Resule();
                 break;
             case gameStep.levelCompeete:
-                //すべてのゲームを完了
+                //すべてのゲームを完了sendScene?
                 break;
         }
     }
@@ -97,22 +95,28 @@ public class Manager : MonoBehaviour
         sqe.AppendCallback(() => FullClose());
         sqe.AppendInterval(2.0f);
         sqe.AppendCallback(() => chestTest.ShuffleRandomSelect());
+        sqe.OnComplete(() => { currentGameStep++; });
         sqe.Play();
     }
     void witeForPlayerSelct()
     {
         if (!testOk && !testNg) return;    //両方選択されずに待機状態
-        else if (testOk || testNg)//testOKがtureでtestNGがfalseの時(unityちゃんが正解を選んだ時)
+        else if (testOk || testNg)
         {
-            if (testNg) LifePanel.instance.UpdateLife(2);
+            if (testNg) { LifePanel.instance.UpdateLife(); }//unityちゃんが不正解を選んだ時
+            else if (testOk)
+            {
+            if(gameLevle<3) gameLevle++;
+            Debug.Log("OK");
+            }
             SingleLidMove(testNg);
             currentGameStep++;
         }
-        // if (testOk) Debug.Log("OK");
-        // else if (testNg); //unityちゃんが不正解を選んだ時
-        }
+    }
     void Resule()
     {
+        Debug.Log("test");
+        unityChanTransform.position = syoki;
         //Levelのカウントアップ/スコア
     }
 }
