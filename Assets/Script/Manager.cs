@@ -73,6 +73,7 @@ public class Manager : MonoBehaviour
             case gameStep.gameStart:
                 readyTxt.text = "Strat";
                 GameStart();
+                currentGameStep++;
                 break;
             case gameStep.witeForPlayerSelct:
                 witeForPlayerSelct();
@@ -106,8 +107,8 @@ public class Manager : MonoBehaviour
             if (testNg) { LifePanel.instance.UpdateLife(); }//unityちゃんが不正解を選んだ時
             else if (testOk)
             {
-            if(gameLevle<3) gameLevle++;
-            Debug.Log("OK");
+            if(gameLevle>3) gameLevle++;
+            Debug.Log(gameLevle);
             }
             SingleLidMove(testNg);
             currentGameStep++;
