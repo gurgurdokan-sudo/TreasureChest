@@ -7,32 +7,32 @@ public class ChestTest : MonoBehaviour
     public Transform[] chests;//宝箱の配列
     public Transform[] centerSides;//統合
     bool isCaseOver=false;
-    float speed;
+    float speed=1.0f;
     public bool IsCaseOver() { return isCaseOver; }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {//test用
-            ShuffleRandomSelect(3);
-        }
+        // if (Input.GetKeyDown(KeyCode.A))
+        // {//test用
+        //     ShuffleRandomSelect(3);
+        // }
     }
-    public void ShuffleRandomSelect(int level)
-    {
-        if (level == 1)
-        {
-            speed = 0.5f;
-        }
-        else if (level == 2)
-        {
-            speed = 0.25f;
-        }
-        else if (level == 3)
-        {
-            speed = 0.19f;
-        }
+    // public void ShuffleRandomSelect(int level)
+    // {
+    //     if (level == 1)
+    //     {
+    //         speed = 0.5f;
+    //     }
+    //     else if (level == 2)
+    //     {
+    //         speed = 0.25f;
+    //     }
+    //     else if (level == 3)
+    //     {
+    //         speed = 0.19f;
+    //     }
         
-        this.ShuffleRandomSelect();
-    }
+    //     this.ShuffleRandomSelect();
+    // }
     public void ShuffleRandomSelect()
     {
         int random = Random.Range(0, 6);
