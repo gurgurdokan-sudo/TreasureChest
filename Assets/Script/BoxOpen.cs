@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using System.Collections;
 
 public class BoxOpen : MonoBehaviour
 {
@@ -10,9 +11,11 @@ public class BoxOpen : MonoBehaviour
     private bool isOpen = false;
     public bool IsOpen() { return isOpen; }
     [SerializeField] bool isDamege = false;
+    [SerializeField] GameObject effectPrefab;
     void Update()
     {
         transform.LookAt(_target);
+        StartCoroutine(EffevtCorrctChecst());
     }
     public void Open(bool isResule=false)
     {
@@ -32,9 +35,9 @@ public class BoxOpen : MonoBehaviour
             .SetEase(Ease.InCubic)
             .OnComplete(() => isOpen = false);
     }
-    public void BoxAnimetion()
+    void BoxAnimetion()
     {
-        Vector3 targetPos =transform.position- Vector3.back * 1.5f;
+        Vector3 targetPos = transform.position - Vector3.back * 1.5f;
         Vector3 carentPos = transform.position;
         Sequence seq = DOTween.Sequence();
         seq.Append(transform.DOMove(targetPos, 0.5f).SetEase(Ease.OutQuad));
@@ -42,5 +45,13 @@ public class BoxOpen : MonoBehaviour
         seq.Append(transform.DOMove(carentPos, 0.5f).SetEase(Ease.OutQuad));
         seq.Join(lidTransform.DOLocalRotate(Vector3.zero, 1.0f));
         seq.Play();
+    }
+    IEnumerator EffevtCorrctChecst()
+    {
+        if (isOpen && !isDamege)
+        {
+            Instantiate(effectPrefab,transform.position+ Vector3.up*1.0f, Quaternion.identity);
+        }
+        yield return new WaitForSeconds(1.5f);    
     }
 }

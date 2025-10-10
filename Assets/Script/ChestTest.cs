@@ -10,6 +10,10 @@ public class ChestTest : MonoBehaviour
 
     public void ShuffleRandomSelect(int level)
     {
+        if (level == 0)
+        {
+            speed = 1.0f;
+        }
         if (level == 1)
         {
             speed = 0.5f;

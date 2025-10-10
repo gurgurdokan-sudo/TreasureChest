@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using UnityEngine.UIElements;
 using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Manager : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class Manager : MonoBehaviour
     // public TextMeshProUGUI scoreText;
     public BoxOpen[] boxOpens;//各Chest
     public ChestTest chestTest;//シャッフル
-    int gameLevle = 1;
+    int gameLevle = 0;
     int life = 3;
     
     enum gameStep
@@ -67,6 +68,11 @@ public class Manager : MonoBehaviour
         seq.Append(canPanel.DOFade(0, 1.0f));
         return seq;
     }
+    IEnumerator SyokiIch()
+    {
+        yield return new WaitForSeconds(0.5f);
+        unityChanTransform.position = syoki;
+    }
 
 
     void Update()
@@ -98,7 +104,7 @@ public class Manager : MonoBehaviour
         sqe.AppendInterval(3.0f);
         sqe.AppendCallback(() => FullClose());
         sqe.AppendInterval(3.0f);
-        sqe.AppendCallback(() => chestTest.ShuffleRandomSelect());
+        sqe.AppendCallback(() => chestTest.ShuffleRandomSelect(gameLevle));
         sqe.AppendInterval(5.0f);
         sqe.AppendCallback(() => {  unityChanContorller.isMove = true; });
         sqe.Play();
@@ -108,9 +114,9 @@ public class Manager : MonoBehaviour
         if (currentPlayer == player.selectNone) return;//両方選択されずに待機状態
         if (currentPlayer == player.correct)
         {
-            if (gameLevle < 3) gameLevle++;
+            if (gameLevle < 4) gameLevle++;
             readyTxt.text = "Great!";
-            // SingleLidMove(false);
+            readyTxt.color = Color.yellow;
             currentGameStep = gameStep.gameResult;
         }
         if (currentPlayer == player.incorrect)
@@ -119,6 +125,7 @@ public class Manager : MonoBehaviour
             life--;
             LifePanel.instance.UpdateLife(life);
             readyTxt.text = "NG Chast";
+            readyTxt.color = Color.red;
             currentGameStep = gameStep.gameResult; 
         }
     }
@@ -126,7 +133,7 @@ public class Manager : MonoBehaviour
     {
         if (currentPlayer == player.incorrect || currentPlayer == player.correct)
         {
-            unityChanTransform.position = syoki;
+            StartCoroutine(SyokiIch());
             unityChanContorller.isMove = false;
             currentPlayer = player.selectNone;
         }
@@ -136,6 +143,7 @@ public class Manager : MonoBehaviour
     }
     void GameOver()
     {
+
         Debug.Log("gameover");
     }
 }
