@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using UnityEngine.UIElements;
 using DG.Tweening;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
@@ -136,6 +137,7 @@ public class Manager : MonoBehaviour
     }
     void GameOver()
     {
+        SceneManager.LoadScene("Result");
         Debug.Log("gameover");
     }
 }
