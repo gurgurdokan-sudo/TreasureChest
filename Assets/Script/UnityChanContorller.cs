@@ -7,7 +7,7 @@ public class UnityChanContorller : MonoBehaviour
     Vector3 lookDirection;
     public float speed = 1.0f;
     public Manager manager;
-    public bool isMove=false;
+    public bool isMove = false;
     void Start()
     {
         animator = GetComponent<Animator>();

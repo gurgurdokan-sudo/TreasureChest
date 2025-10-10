@@ -14,13 +14,14 @@ public class Manager : MonoBehaviour
     Vector3 syoki = new Vector3(0, 0.52f, -6.0f);
     public CanvasGroup canPanel;
     TextMeshProUGUI readyTxt;
+
     // public TextMeshProUGUI scoreText;
     public BoxOpen[] boxOpens;//各Chest
     public ChestTest chestTest;//シャッフル
     /*flog　ゲームの進行を制御するための処理　両方False待機、testOKがtrueの時に進行する*/
     public bool testOk = false;
     public bool testNg = false;
-    public int life=3;
+    public int life = 3;
     int gameLevle = 1;
     enum gameStep
     {
@@ -46,15 +47,20 @@ public class Manager : MonoBehaviour
         {
             if (boxOpens[i].IsOpen())
             {
+                Debug.Log(boxOpens[i] + "1");//Ok
+
                 if (testNg)
                 {
-                    //--------------------未完成---------^--------------
-                    transform.DOShakePosition(0.5f, 1f, 45, 1, false, true);
-                   //-------------------------------------------------------
+                    Debug.Log(boxOpens[i] + "2");//Ok
+                    Debug.Break();//発生していない
+
+                    //動かす対象が見つかっていない
+                    boxOpens[i].transform.DOShakePosition(0.5f, 1f, 90, 1, false, true);
+                   
                 }
             }
 
-            boxOpens[i].Close();
+            boxOpens[i].Close();//Ok
         }
     }
     void SingleLidMove(bool ng)
@@ -109,7 +115,7 @@ public class Manager : MonoBehaviour
         sqe.AppendInterval(2.0f);
         sqe.AppendCallback(() => FullClose());
         sqe.AppendInterval(2.0f);
-        sqe.AppendCallback(() => {chestTest.ShuffleRandomSelect(); unityChanContorller.isMove = true; });
+        sqe.AppendCallback(() => { chestTest.ShuffleRandomSelect(); unityChanContorller.isMove = true; });
         sqe.Play();
     }
     void witeForPlayerSelct()
@@ -118,18 +124,18 @@ public class Manager : MonoBehaviour
         if (!testOk && !testNg) return;    //両方選択されずに待機状態
         else if (testOk || testNg)
         {
-            bool flag=true;
+            bool flag = true;
             if (testNg && flag)//unityちゃんが不正解を選んだ時
             {
                 readyTxt.text = "NG Chast";
                 seq.AppendCallback(() => LifePanel.instance.UpdateLife(life--));
                 flag = false;
             }
-            else if (testOk )
+            else if (testOk)
             {
                 if (gameLevle < 3) seq.AppendCallback(() => gameLevle++);
                 readyTxt.text = "Great!";
-                Debug.Log("life :"+life);
+                Debug.Log("life :" + life);
             }
             seq.Append(FadeIn());
         }
