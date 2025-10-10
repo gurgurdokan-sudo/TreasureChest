@@ -38,13 +38,13 @@ public class UnityChanContorller : MonoBehaviour
                 if (!box.IsOpen())
                 {
                     box.Open();
-                    if (hit.collider.tag == "hit") manager.testOk = true;
+                    if (hit.collider.tag == "hit") manager.currentPlayer = Manager.player.correct;
                     else
                     {
-                        manager.testNg = true;
                         StartCoroutine(FalseWait());
                         transform.DOLocalJump(Vector3.back * 2.5f, 1.0f, 2, 1.0f)
-                        .SetRelative();
+                        .SetRelative()
+                        .OnComplete(()=>manager.currentPlayer = Manager.player.incorrect);
                     }
                 }
             }
