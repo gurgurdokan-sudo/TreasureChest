@@ -37,7 +37,7 @@ public class UnityChanContorller : MonoBehaviour
                 BoxOpen box = hit.collider.GetComponent<BoxOpen>();
                 if (!box.IsOpen())
                 {
-                    box.Open();
+                    box.Open(true);
                     if (hit.collider.tag == "hit") manager.currentPlayer = Manager.player.correct;
                     else
                     {

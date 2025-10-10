@@ -53,15 +53,10 @@ public class Manager : MonoBehaviour
             boxOpens[i].Close();
         }
     }
-    void SingleLidMove(bool ng)
+    void SingleLidMove()
     {
         Sequence sqe = DOTween.Sequence();
         sqe.AppendInterval(1.0f);
-        if (ng)
-        {
-            sqe.AppendCallback(() => FullOpen());
-            sqe.AppendInterval(1.0f);
-        }
         sqe.AppendCallback(() => FullClose());
         sqe.Play();
     }
@@ -115,11 +110,12 @@ public class Manager : MonoBehaviour
         {
             if (gameLevle < 3) gameLevle++;
             readyTxt.text = "Great!";
-            SingleLidMove(false);
+            // SingleLidMove(false);
             currentGameStep = gameStep.gameResult;
         }
         if (currentPlayer == player.incorrect)
         {
+            SingleLidMove();
             life--;
             LifePanel.instance.UpdateLife(life);
             readyTxt.text = "NG Chast";

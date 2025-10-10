@@ -9,13 +9,19 @@ public class BoxOpen : MonoBehaviour
     public float duration = 1f;
     private bool isOpen = false;
     public bool IsOpen() { return isOpen; }
+    [SerializeField] bool isDamege = false;
     void Update()
     {
         transform.LookAt(_target);
     }
-    public void Open()
+    public void Open(bool isResule=false)
     {
-        lidTransform.DOLocalRotate(new Vector3(openAngle, 0, 0), duration)
+        if (isDamege && isResule)
+        {
+            BoxAnimetion();
+            Debug.Log("test");
+        }
+        else lidTransform.DOLocalRotate(new Vector3(openAngle, 0, 0), duration)
             .SetEase(Ease.OutCubic)
             .OnComplete(() => isOpen = true);
     }
@@ -25,5 +31,16 @@ public class BoxOpen : MonoBehaviour
         lidTransform.DOLocalRotate(Vector3.zero, duration)
             .SetEase(Ease.InCubic)
             .OnComplete(() => isOpen = false);
+    }
+    public void BoxAnimetion()
+    {
+        Vector3 targetPos =transform.position- Vector3.back * 1.5f;
+        Vector3 carentPos = transform.position;
+        Sequence seq = DOTween.Sequence();
+        seq.Append(transform.DOMove(targetPos, 0.2f).SetEase(Ease.OutQuad));
+        seq.Join(lidTransform.DOLocalRotate(new Vector3(openAngle, 0, 0), 0.2f)).SetLoops(1,LoopType.Yoyo);
+        seq.Append(transform.DOMove(carentPos, 0.6f).SetEase(Ease.OutQuad));
+        seq.Join(lidTransform.DOLocalRotate(Vector3.zero, 1.0f));
+        seq.Play();
     }
 }
