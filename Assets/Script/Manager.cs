@@ -5,7 +5,6 @@ using NUnit.Framework;
 using System.Xml.Serialization;
 using UnityEngine.UIElements;
 using DG.Tweening;
-using System.Collections;
 
 public class Manager : MonoBehaviour
 {
@@ -17,27 +16,24 @@ public class Manager : MonoBehaviour
     // public TextMeshProUGUI scoreText;
     public BoxOpen[] boxOpens;//各Chest
     public ChestTest chestTest;//シャッフル
+    /*flog　ゲームの進行を制御するための処理　両方False待機、testOKがtrueの時に進行する*/
+    public bool testOk = false;
+    public bool testNg = false;
+    public int life=3;
     int gameLevle = 1;
-    int life = 3;
-    
+    public GameObject effectPrefab;
+    //public Vector3 effectRotation;
+    GameObject hitBox;
     enum gameStep
     {
-        gameStart, waitForPlayerSelct, gameResult, levelCompeete
+        gameStart, witeForPlayerSelct, gameResult, levelCompeete
     }
-    gameStep currentGameStep;
-    public enum player
-    {
-        selectNone,correct,incorrect
-    }
-    public player currentPlayer;
+    gameStep currentGameStep = 0;
     void Start()
     {
         readyTxt = canPanel.GetComponentInChildren<TextMeshProUGUI>();
         unityChanContorller = unityChanTransform.GetComponent<UnityChanContorller>();
         unityChanContorller.isMove = false;
-        readyTxt.text = "Strat";
-        currentGameStep = gameStep.gameStart;
-        currentPlayer = player.selectNone;
     }
     void FullOpen()
     {
@@ -80,11 +76,13 @@ public class Manager : MonoBehaviour
         {
             case gameStep.gameStart:
                 unityChanContorller.isMove = false;
+                readyTxt.text = "Strat";
                 GameStart();
-                currentGameStep=gameStep.waitForPlayerSelct;
+                currentGameStep++;
                 break;
-            case gameStep.waitForPlayerSelct:
-                WaitForPlayerSelct();
+            case gameStep.witeForPlayerSelct:
+                // unityChanContorller.isMove = true;
+                witeForPlayerSelct();
                 break;
             case gameStep.gameResult:
                 Resule();
@@ -100,44 +98,52 @@ public class Manager : MonoBehaviour
         Sequence sqe = DOTween.Sequence();
         sqe.Append(FadeIn());
         sqe.AppendCallback(() => FullOpen());
-        sqe.AppendInterval(3.0f);
+        sqe.AppendInterval(2.0f);
         sqe.AppendCallback(() => FullClose());
-        sqe.AppendInterval(3.0f);
-        sqe.AppendCallback(() => chestTest.ShuffleRandomSelect());
-        sqe.AppendInterval(5.0f);
-        sqe.AppendCallback(() => {  unityChanContorller.isMove = true; });
+        sqe.AppendInterval(2.0f);
+        sqe.AppendCallback(() => { chestTest.ShuffleRandomSelect(); unityChanContorller.isMove = true; });
         sqe.Play();
+        hitBox = GameObject.Find("coins 6");
     }
-    void WaitForPlayerSelct()
+    void witeForPlayerSelct()
     {
-        if (currentPlayer == player.selectNone) return;//両方選択されずに待機状態
-        if (currentPlayer == player.correct)
+        Sequence seq = DOTween.Sequence();
+        if (!testOk && !testNg) return;    //両方選択されずに待機状態
+        else if (testOk || testNg)
         {
-            if (gameLevle < 3) gameLevle++;
-            readyTxt.text = "Great!";
-            SingleLidMove(false);
-            currentGameStep = gameStep.gameResult;
-        }
-        if (currentPlayer == player.incorrect)
-        {
-            life--;
-            LifePanel.instance.UpdateLife(life);
-            readyTxt.text = "NG Chast";
-            currentGameStep = gameStep.gameResult;
-        }
-    }
+            bool flag=true;
+            if (testNg && flag)
+            {
+                readyTxt.text = "NG Chast";
+                seq.AppendCallback(() => LifePanel.instance.UpdateLife(life--));
+                flag = false;
+            }//unityちゃんが不正解を選んだ時
+            else if (testOk)
+            {
+                if (gameLevle < 3) seq.AppendCallback(() => gameLevle++);
+                readyTxt.text = "Great!";
 
+                Debug.Log("life :" + life);
+                
+                Instantiate(
+                    effectPrefab,
+                    hitBox.transform.position,
+                    Quaternion.identity
+                );
+            }
+            seq.Append(FadeIn());
+        }
+        seq.AppendCallback(() => { SingleLidMove(testNg); });
+        seq.OnComplete(() => { currentGameStep++; testOk = false; testOk = false; });//初期化
+        seq.Play();
+    }
     void Resule()
     {
-        if (currentPlayer == player.incorrect || currentPlayer == player.correct)
-        {
-            unityChanTransform.position = syoki;
-            unityChanContorller.isMove = false;
-            currentPlayer = player.selectNone;
-        }
+        if (unityChanContorller.isMove) unityChanTransform.position = syoki;
+        unityChanContorller.isMove = false;
         //Levelのカウントアップ/スコア
         if (life > 0) currentGameStep = gameStep.gameStart;//もう一度ゲームステップ
-        else currentGameStep=gameStep.levelCompeete;
+        else currentGameStep++;
     }
     void GameOver()
     {
