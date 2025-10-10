@@ -123,10 +123,9 @@ public class Manager : MonoBehaviour
             life--;
             LifePanel.instance.UpdateLife(life);
             readyTxt.text = "NG Chast";
-            currentGameStep = gameStep.gameResult;
+            currentGameStep = gameStep.gameResult; 
         }
     }
-
     void Resule()
     {
         if (currentPlayer == player.incorrect || currentPlayer == player.correct)
