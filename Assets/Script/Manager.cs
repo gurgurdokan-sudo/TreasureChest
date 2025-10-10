@@ -87,7 +87,7 @@ public class Manager : MonoBehaviour
                 Resule();
                 break;
             case gameStep.levelCompeete:
-                PlayerPrefs.GetInt("score");
+                PlayerPrefs.SetInt("score",score);
                 GameOver();
                 //すべてのゲームを完了sendScene?
                 break;
