@@ -42,7 +42,7 @@ public class BoxOpen : MonoBehaviour
         Vector3 targetPos = pos + Vector3.back * 2f;
 
         Sequence seq = DOTween.Sequence();
-        seq.Append(lidTransform.DOLocalRotate(new Vector3(-40f, 0, 0), 1f).SetEase(Ease.OutCubic));
+      //  seq.Append(lidTransform.DOLocalRotate(new Vector3(-40f, 0, 0), 1f).SetEase(Ease.OutCubic));
         seq.AppendInterval(1f);
         seq.Append(transform.DOMove(targetPos, 1f).SetEase(Ease.OutQuad));
         seq.Append(transform.DOMove(pos, 1f).SetEase(Ease.InQuad));

@@ -12,7 +12,7 @@ public class DOUSAKAKUNINN : MonoBehaviour
         Vector3 pos = transform.position;
         Vector3 targetPos = pos + Vector3.back * 2f;
 
-Sequence seq = DOTween.Sequence();
+        Sequence seq = DOTween.Sequence();
         seq.Append(lidTransform.DOLocalRotate(new Vector3(-40f, 0, 0), 1f).SetEase(Ease.OutCubic));
         seq.AppendInterval(1f);
 
