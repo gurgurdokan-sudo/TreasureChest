@@ -21,6 +21,9 @@ public class Manager : MonoBehaviour
     public bool testNg = false;
     public int life=3;
     int gameLevle = 1;
+    public GameObject effectPrefab;
+    //public Vector3 effectRotation;
+    GameObject hitBox;
     enum gameStep
     {
         gameStart, witeForPlayerSelct, gameResult, levelCompeete
@@ -98,8 +101,9 @@ public class Manager : MonoBehaviour
         sqe.AppendInterval(2.0f);
         sqe.AppendCallback(() => FullClose());
         sqe.AppendInterval(2.0f);
-        sqe.AppendCallback(() => {chestTest.ShuffleRandomSelect(); unityChanContorller.isMove = true; });
+        sqe.AppendCallback(() => { chestTest.ShuffleRandomSelect(); unityChanContorller.isMove = true; });
         sqe.Play();
+        hitBox = GameObject.Find("coins 6");
     }
     void witeForPlayerSelct()
     {
@@ -118,7 +122,14 @@ public class Manager : MonoBehaviour
             {
                 if (gameLevle < 3) seq.AppendCallback(() => gameLevle++);
                 readyTxt.text = "Great!";
-                Debug.Log("life :"+life);
+
+                Debug.Log("life :" + life);
+                
+                Instantiate(
+                    effectPrefab,
+                    hitBox.transform.position,
+                    Quaternion.identity
+                );
             }
             seq.Append(FadeIn());
         }
