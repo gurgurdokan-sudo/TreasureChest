@@ -8,8 +8,7 @@ public class BoxOpen : MonoBehaviour
     public float openAngle = -40f; // 開くときの角度（x軸）
     public float duration = 1f;
     private bool isOpen = false;
-    bool isDamege = false;
-
+    [SerializeField] bool isDamege = false;
 
     public bool IsOpen() { return isOpen; }
     void Update()
@@ -33,7 +32,6 @@ public class BoxOpen : MonoBehaviour
         {
             lidTransform.DOLocalRotate(Vector3.zero, duration).SetEase(Ease.InCubic).OnComplete(() => isOpen = false);
         }
-
     }
 
     public void BoxAnimetion()
@@ -43,12 +41,11 @@ public class BoxOpen : MonoBehaviour
 
         Sequence seq = DOTween.Sequence();
         seq.Append(lidTransform.DOLocalRotate(new Vector3(-40f, 0, 0), 1f).SetEase(Ease.OutCubic));
-        seq.AppendInterval(1f);
+        //seq.AppendInterval(1f);
         seq.Append(transform.DOMove(targetPos, 1f).SetEase(Ease.OutQuad));
         seq.Append(transform.DOMove(pos, 1f).SetEase(Ease.InQuad));
         seq.AppendInterval(1f);
-
         seq.Append(lidTransform.DOLocalRotate(Vector3.zero, 1.0f).SetEase(Ease.InCubic));
-
+        seq.Play();
     }
 }
