@@ -102,6 +102,7 @@ public class Manager : MonoBehaviour
         sqe.AppendCallback(() => FullOpen());
         sqe.AppendInterval(3.0f);
         sqe.AppendCallback(() => FullClose());
+        sqe.AppendInterval(3.0f);
         sqe.AppendCallback(() => chestTest.ShuffleRandomSelect());
         sqe.AppendInterval(5.0f);
         sqe.AppendCallback(() => {  unityChanContorller.isMove = true; });
