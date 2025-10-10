@@ -45,21 +45,22 @@ public class Manager : MonoBehaviour
     {
         for (int i = 0; i < boxOpens.Length; i++)
         {
+
+
+        /*
             if (boxOpens[i].IsOpen())
             {
-                Debug.Log(boxOpens[i] + "1");//Ok
-
                 if (testNg)
                 {
                     Debug.Log(boxOpens[i] + "2");//Ok
-                    Debug.Break();//発生していない
+                                                 // Debug.Break();//発生していない
 
                     //動かす対象が見つかっていない
-                    boxOpens[i].transform.DOShakePosition(0.5f, 1f, 90, 1, false, true);
-                   
+                    boxOpens[i].transform.DOShakePosition(0.5f, 1f, 90, 1, false, true).OnComplete(() => Debug.Log("Shake Done"));
+
                 }
             }
-
+*/
             boxOpens[i].Close();//Ok
         }
     }

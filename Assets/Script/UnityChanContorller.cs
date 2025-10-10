@@ -8,9 +8,13 @@ public class UnityChanContorller : MonoBehaviour
     public float speed = 1.0f;
     public Manager manager;
     public bool isMove = false;
+
+
+
     void Start()
     {
         animator = GetComponent<Animator>();
+     
     }
 
     void Update()
@@ -45,6 +49,7 @@ public class UnityChanContorller : MonoBehaviour
                         StartCoroutine(FalseWait());
                         transform.DOLocalJump(Vector3.back * 2.5f, 1.0f, 2, 1.0f)
                         .SetRelative();
+
                     }
                 }
             }
