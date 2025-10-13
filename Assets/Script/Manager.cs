@@ -1,10 +1,7 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.TerrainTools;
-using NUnit.Framework;
-using System.Xml.Serialization;
-using UnityEngine.UIElements;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
@@ -13,27 +10,29 @@ public class Manager : MonoBehaviour
     Vector3 syoki = new Vector3(0, 0.52f, -6.0f);
     public CanvasGroup canPanel;
     TextMeshProUGUI readyTxt;
-    // public TextMeshProUGUI scoreText;
     public BoxOpen[] boxOpens;//各Chest
     public ChestTest chestTest;//シャッフル
-    /*flog　ゲームの進行を制御するための処理　両方False待機、testOKがtrueの時に進行する*/
-    public bool testOk = false;
-    public bool testNg = false;
-    public int life=3;
     int gameLevle = 1;
-    public GameObject effectPrefab;
-    //public Vector3 effectRotation;
-    GameObject hitBox;
+    int life = 3;
+    
     enum gameStep
     {
-        gameStart, witeForPlayerSelct, gameResult, levelCompeete
+        gameStart, waitForPlayerSelct, gameRelode, levelCompeete
     }
-    gameStep currentGameStep = 0;
+    gameStep currentGameStep;
+    public enum player
+    {
+        selectNone,correct,incorrect
+    }
+    public player currentPlayer;
     void Start()
     {
         readyTxt = canPanel.GetComponentInChildren<TextMeshProUGUI>();
         unityChanContorller = unityChanTransform.GetComponent<UnityChanContorller>();
         unityChanContorller.isMove = false;
+        readyTxt.text = "Strat";
+        currentGameStep = gameStep.gameStart;
+        currentPlayer = player.selectNone;
     }
     void FullOpen()
     {
@@ -49,15 +48,10 @@ public class Manager : MonoBehaviour
             boxOpens[i].Close();
         }
     }
-    void SingleLidMove(bool ng)
+    void SingleLidMove()
     {
         Sequence sqe = DOTween.Sequence();
         sqe.AppendInterval(1.0f);
-        if (ng)
-        {
-            sqe.AppendCallback(() => FullOpen());
-            sqe.AppendInterval(1.0f);
-        }
         sqe.AppendCallback(() => FullClose());
         sqe.Play();
     }
@@ -68,28 +62,23 @@ public class Manager : MonoBehaviour
         seq.Append(canPanel.DOFade(0, 1.0f));
         return seq;
     }
-
-
     void Update()
     {
         switch (currentGameStep)
         {
             case gameStep.gameStart:
                 unityChanContorller.isMove = false;
-                readyTxt.text = "Strat";
                 GameStart();
-                currentGameStep++;
+                currentGameStep=gameStep.waitForPlayerSelct;
                 break;
-            case gameStep.witeForPlayerSelct:
-                // unityChanContorller.isMove = true;
-                witeForPlayerSelct();
+            case gameStep.waitForPlayerSelct:
+                WaitForPlayerSelct();
                 break;
-            case gameStep.gameResult:
-                Resule();
+            case gameStep.gameRelode:
+                ReloadGame();
                 break;
             case gameStep.levelCompeete:
-                GameOver();
-                //すべてのゲームを完了sendScene?
+                Resule();
                 break;
         }
     }
@@ -98,56 +87,48 @@ public class Manager : MonoBehaviour
         Sequence sqe = DOTween.Sequence();
         sqe.Append(FadeIn());
         sqe.AppendCallback(() => FullOpen());
-        sqe.AppendInterval(2.0f);
+        sqe.AppendInterval(3.0f);
         sqe.AppendCallback(() => FullClose());
-        sqe.AppendInterval(2.0f);
-        sqe.AppendCallback(() => { chestTest.ShuffleRandomSelect(); unityChanContorller.isMove = true; });
+        sqe.AppendInterval(3.0f);
+        sqe.AppendCallback(() => chestTest.ShuffleRandomSelect());
+        sqe.AppendInterval(5.0f);
+        sqe.OnComplete(() => {  unityChanContorller.isMove = true; });
         sqe.Play();
-        hitBox = GameObject.Find("coins 6");
     }
-    void witeForPlayerSelct()
+    void WaitForPlayerSelct()
     {
-        Sequence seq = DOTween.Sequence();
-        if (!testOk && !testNg) return;    //両方選択されずに待機状態
-        else if (testOk || testNg)
+        if (currentPlayer == player.selectNone) return;//両方選択されずに待機状態
+        if (currentPlayer == player.correct)
         {
-            bool flag=true;
-            if (testNg && flag)
-            {
-                readyTxt.text = "NG Chast";
-                seq.AppendCallback(() => LifePanel.instance.UpdateLife(life--));
-                flag = false;
-            }//unityちゃんが不正解を選んだ時
-            else if (testOk)
-            {
-                if (gameLevle < 3) seq.AppendCallback(() => gameLevle++);
-                readyTxt.text = "Great!";
-
-                Debug.Log("life :" + life);
-                
-                Instantiate(
-                    effectPrefab,
-                    hitBox.transform.position,
-                    Quaternion.identity
-                );
-            }
-            seq.Append(FadeIn());
+            if (gameLevle < 3) gameLevle++;
+            readyTxt.text = "Great!";
+            // SingleLidMove(false);
+            currentGameStep = gameStep.gameRelode;
         }
-        seq.AppendCallback(() => { SingleLidMove(testNg); });
-        seq.OnComplete(() => { currentGameStep++; testOk = false; testOk = false; });//初期化
-        seq.Play();
+        if (currentPlayer == player.incorrect)
+        {
+            SingleLidMove();
+            life--;
+            LifePanel.instance.UpdateLife(life);
+            readyTxt.text = "NG Chast";
+            currentGameStep = gameStep.gameRelode; 
+        }
+    }
+    void ReloadGame()
+    {
+        if (currentPlayer == player.incorrect || currentPlayer == player.correct)
+        {
+            unityChanTransform.position = syoki;
+            unityChanContorller.isMove = false;
+            currentPlayer = player.selectNone;
+        }
+        //Levelのカウントアップ/スコア
+        if (life > 0) currentGameStep = gameStep.gameStart;//もう一度ゲームステップ
+        else currentGameStep=gameStep.levelCompeete;
     }
     void Resule()
     {
-        if (unityChanContorller.isMove) unityChanTransform.position = syoki;
-        unityChanContorller.isMove = false;
-        //Levelのカウントアップ/スコア
-        if (life > 0) currentGameStep = gameStep.gameStart;//もう一度ゲームステップ
-        else currentGameStep++;
-    }
-    void GameOver()
-    {
-        Debug.Log("gameover");
+        SceneManager.LoadScene("Result");
     }
 }
 

@@ -21,10 +21,4 @@ public class CameraController : MonoBehaviour
             Time.deltaTime * followSpeed
         );
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
