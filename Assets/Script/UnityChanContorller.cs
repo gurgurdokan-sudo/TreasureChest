@@ -6,6 +6,7 @@ public class UnityChanContorller : MonoBehaviour
     Animator animator;
     Vector3 lookDirection;
     public float speed = 1.0f;
+    
     public Manager manager;
     public bool isMove=false;
     void Start()
@@ -15,13 +16,21 @@ public class UnityChanContorller : MonoBehaviour
 
     void Update()
     {
-        if (!isMove) return;
-        float rot = Input.GetAxis("Horizontal");//回転
-        float vertical = Input.GetAxis("Vertical");//進行方向
 
-        animator.SetFloat("Speed", Mathf.Max(vertical, Mathf.Abs(rot)));
+        if (!isMove) return;
+
+        float rot = Input.GetAxis("Horizontal");//回転
+        //float vertical = Input.GetAxis("Vertical");//進行方向
+        float vertical =Mathf.Max(Input.GetAxis("Vertical"), 0f);
+        
+       animator.SetFloat("Speed", Mathf.Max(vertical, Mathf.Abs(rot)));
         transform.Rotate(0, rot * 150.0f * Time.deltaTime, 0);
+        
+         
         transform.position += transform.forward * vertical * speed * Time.deltaTime;
+        
+       
+       
 
         lookDirection = transform.forward;
         if (Input.GetKeyDown(KeyCode.X))
