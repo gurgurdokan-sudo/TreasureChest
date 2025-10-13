@@ -7,9 +7,12 @@ using UnityEngine.UIElements;
 using DG.Tweening;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class Manager : MonoBehaviour
 {
+    public static Manager Instance;//シーンをまたいでscoreを渡せないのでシングルトンにしています
+
     public Transform unityChanTransform;
     UnityChanContorller unityChanContorller;
     Vector3 syoki = new Vector3(0, 0.52f, -6.0f);
@@ -20,7 +23,24 @@ public class Manager : MonoBehaviour
     public ChestTest chestTest;//シャッフル
     int gameLevle = 1;
     int life = 3;
-    int score = 0;
+    public int score = 0;
+    public List<int> ScoreList = new List<int>();
+
+     private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // シーンをまたいでも残す
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
+
 
     enum gameStep
     {
@@ -87,11 +107,19 @@ public class Manager : MonoBehaviour
                 Resule();
                 break;
             case gameStep.levelCompeete:
-                PlayerPrefs.SetInt("score",score);
+                ScoreSort(score);
+
                 GameOver();
                 //すべてのゲームを完了sendScene?
                 break;
         }
+//--------注意デバック用--------
+ if (Input.GetKeyDown(KeyCode.O))
+        {
+           
+         currentGameStep = gameStep.levelCompeete;
+        }
+
     }
     void GameStart()
     {
@@ -115,6 +143,7 @@ public class Manager : MonoBehaviour
             readyTxt.text = "Great!";
             // SingleLidMove(false);
             score++;
+            Debug.Log(score + "メソッド内++位置");
             currentGameStep = gameStep.gameResult;
         }
         if (currentPlayer == player.incorrect)
@@ -145,5 +174,32 @@ public class Manager : MonoBehaviour
         SceneManager.LoadScene("Result");
     }
 
+    void ScoreSort(int score)
+    {
+        if (PlayerPrefs.GetInt("HightScore") < score)
+        {
+            PlayerPrefs.SetInt("HightScore", score);
+            ScoreList.Insert(0, score);
+            Debug.Log(score + "ハイスコア判定内");
+            Debug.Log(ScoreList[0]);
+        }
+        else
+        {
+            ScoreList.Add(score);
+            ScoreList.Sort((a, b) => b.CompareTo(a));
+            if (ScoreList.Count > 5)
+            {
+                ScoreList.RemoveRange(5, ScoreList.Count - 5);
+                Debug.Log(score + "ランキング処理内");
+                Debug.Log(ScoreList);
+            }
+
+        }
+
+     
+        // PlayerPrefs.SetInt("score", score);
+    }
 }
+
+
 
