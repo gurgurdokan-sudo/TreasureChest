@@ -2,37 +2,40 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class ResultControl : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
+
+    //public Text[] scoreText;
     public TextMeshProUGUI hightScore;
-    //List<Manager> managers = new List<Manager>();
+    
 
     public void OnStartButtonClicked()
     {
         SceneManager.LoadScene("Main");
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+   
     void Start()
     {
-        var scores = Manager.Instance.ScoreList;
+        var scores = ScoreManager.Instance.ScoreList;
 
         hightScore.text = PlayerPrefs.GetInt("HightScore") + "score";
-        //まだscoreの仕組みができていないから仮置き。
-        //やる場合は PlayerPrefs.SetInt("score");
+        
         for (int i = 0; i < scores.Count; i++)
         {
+            /*
             if (i < scores.Count)
             {
-                scoreText.text = (i + 1) + "位: " + scores[i].ToString();
+                scoreText[i].text = i + 1 + ": " + scores[i];
             }
             else
             {
-                scoreText.text = (i + 1) + "位: ---";
+                scoreText[i].text = i + 1 + ": ---";
             }
-
-          //  scoreText.text = i + 1 + "位" + scores[i] + "Score";
+*/
+          scoreText.text = i + 1 + ":" + scores[i] + "Score";
 
         }
 
@@ -42,11 +45,6 @@ public class ResultControl : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }
 /*
  if (PlayerPrefs.GetInt("HightScore") < score)

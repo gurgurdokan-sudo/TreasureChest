@@ -11,8 +11,7 @@ using System.Collections.Generic;
 
 public class Manager : MonoBehaviour
 {
-    public static Manager Instance;//シーンをまたいでscoreを渡せないのでシングルトンにしています
-
+    
     public Transform unityChanTransform;
     UnityChanContorller unityChanContorller;
     Vector3 syoki = new Vector3(0, 0.52f, -6.0f);
@@ -22,25 +21,12 @@ public class Manager : MonoBehaviour
     public BoxOpen[] boxOpens;//各Chest
     public ChestTest chestTest;//シャッフル
     int gameLevle = 1;
-    int life = 3;
+    //注意テスト用に変数を変えています！！！！！！！！！！！！！！！！！！！！！
+    int life = 1;
+    //テスト用にpublicにしています。実装時は消してください
     public int score = 0;
-    public List<int> ScoreList = new List<int>();
-
-     private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // シーンをまたいでも残す
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
-
-
+    public ScoreManager scoreManager;
+    
 
     enum gameStep
     {
@@ -107,17 +93,17 @@ public class Manager : MonoBehaviour
                 Resule();
                 break;
             case gameStep.levelCompeete:
-                ScoreSort(score);
+
 
                 GameOver();
                 //すべてのゲームを完了sendScene?
                 break;
         }
-//--------注意デバック用--------
- if (Input.GetKeyDown(KeyCode.O))
+        //--------注意デバック用--------
+        if (Input.GetKeyDown(KeyCode.O))
         {
-           
-         currentGameStep = gameStep.levelCompeete;
+            life = life - 3;
+        
         }
 
     }
@@ -142,7 +128,8 @@ public class Manager : MonoBehaviour
             if (gameLevle < 3) gameLevle++;
             readyTxt.text = "Great!";
             // SingleLidMove(false);
-            score++;
+            
+            scoreManager.SetScore(score++);
             Debug.Log(score + "メソッド内++位置");
             currentGameStep = gameStep.gameResult;
         }
@@ -166,39 +153,20 @@ public class Manager : MonoBehaviour
         }
         //Levelのカウントアップ/スコア
         if (life > 0) currentGameStep = gameStep.gameStart;//もう一度ゲームステップ
-        else currentGameStep = gameStep.levelCompeete;
+        else
+        {
+            scoreManager.ScoreSort(ref score);
+            currentGameStep = gameStep.levelCompeete;
+        }
     }
     void GameOver()
     {
+
         Debug.Log("gameover");
         SceneManager.LoadScene("Result");
     }
 
-    void ScoreSort(int score)
-    {
-        if (PlayerPrefs.GetInt("HightScore") < score)
-        {
-            PlayerPrefs.SetInt("HightScore", score);
-            ScoreList.Insert(0, score);
-            Debug.Log(score + "ハイスコア判定内");
-            Debug.Log(ScoreList[0]);
-        }
-        else
-        {
-            ScoreList.Add(score);
-            ScoreList.Sort((a, b) => b.CompareTo(a));
-            if (ScoreList.Count > 5)
-            {
-                ScoreList.RemoveRange(5, ScoreList.Count - 5);
-                Debug.Log(score + "ランキング処理内");
-                Debug.Log(ScoreList);
-            }
 
-        }
-
-     
-        // PlayerPrefs.SetInt("score", score);
-    }
 }
 
 
