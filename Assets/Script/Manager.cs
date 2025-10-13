@@ -14,7 +14,7 @@ public class Manager : MonoBehaviour
     public ChestTest chestTest;//シャッフル
     int gameLevle = 1;
     int life = 3;
-    
+
     enum gameStep
     {
         gameStart, waitForPlayerSelct, gameRelode, levelCompeete
@@ -22,7 +22,7 @@ public class Manager : MonoBehaviour
     gameStep currentGameStep;
     public enum player
     {
-        selectNone,correct,incorrect
+        selectNone, correct, incorrect
     }
     public player currentPlayer;
     void Start()
@@ -30,7 +30,7 @@ public class Manager : MonoBehaviour
         readyTxt = canPanel.GetComponentInChildren<TextMeshProUGUI>();
         unityChanContorller = unityChanTransform.GetComponent<UnityChanContorller>();
         unityChanContorller.isMove = false;
-        readyTxt.text = "Strat";
+        readyTxt.text = "Start";
         currentGameStep = gameStep.gameStart;
         currentPlayer = player.selectNone;
     }
@@ -48,9 +48,10 @@ public class Manager : MonoBehaviour
             boxOpens[i].Close();
         }
     }
-    void SingleLidMove()
+    void SingleLidMove(bool isNg = false)
     {
         Sequence sqe = DOTween.Sequence();
+        if (!isNg) sqe.AppendCallback(() => FullOpen());
         sqe.AppendInterval(1.0f);
         sqe.AppendCallback(() => FullClose());
         sqe.Play();
@@ -69,7 +70,7 @@ public class Manager : MonoBehaviour
             case gameStep.gameStart:
                 unityChanContorller.isMove = false;
                 GameStart();
-                currentGameStep=gameStep.waitForPlayerSelct;
+                currentGameStep = gameStep.waitForPlayerSelct;
                 break;
             case gameStep.waitForPlayerSelct:
                 WaitForPlayerSelct();
@@ -92,7 +93,7 @@ public class Manager : MonoBehaviour
         sqe.AppendInterval(3.0f);
         sqe.AppendCallback(() => chestTest.ShuffleRandomSelect());
         sqe.AppendInterval(5.0f);
-        sqe.OnComplete(() => {  unityChanContorller.isMove = true; });
+        sqe.OnComplete(() => { unityChanContorller.isMove = true; });
         sqe.Play();
     }
     void WaitForPlayerSelct()
@@ -102,33 +103,40 @@ public class Manager : MonoBehaviour
         {
             if (gameLevle < 3) gameLevle++;
             readyTxt.text = "Great!";
-            // SingleLidMove(false);
+            readyTxt.color = Color.yellow;
+            SingleLidMove();
             currentGameStep = gameStep.gameRelode;
         }
         if (currentPlayer == player.incorrect)
         {
-            SingleLidMove();
             life--;
             LifePanel.instance.UpdateLife(life);
+            SingleLidMove(true);
             readyTxt.text = "NG Chast";
-            currentGameStep = gameStep.gameRelode; 
+            readyTxt.color = Color.red;
+            currentGameStep = gameStep.gameRelode;
         }
     }
     void ReloadGame()
     {
         if (currentPlayer == player.incorrect || currentPlayer == player.correct)
         {
-            unityChanTransform.position = syoki;
             unityChanContorller.isMove = false;
             currentPlayer = player.selectNone;
+            unityChanTransform.position = syoki;
         }
         //Levelのカウントアップ/スコア
         if (life > 0) currentGameStep = gameStep.gameStart;//もう一度ゲームステップ
-        else currentGameStep=gameStep.levelCompeete;
+        else currentGameStep = gameStep.levelCompeete;
     }
     void Resule()
     {
         SceneManager.LoadScene("Result");
+    }
+    public void OnClickHint()
+    {
+        int random = Random.Range(0, 3);
+        boxOpens[random].HintLid();
     }
 }
 
