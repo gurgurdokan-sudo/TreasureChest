@@ -1,6 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 using System.Collections;
+using UnityEngine.Rendering;
 
 public class BoxOpen : MonoBehaviour
 {
@@ -9,15 +10,19 @@ public class BoxOpen : MonoBehaviour
     public float openAngle = -40f; // 開くときの角度（x軸）
     public float duration = 1f;
     private bool isOpen = false;
+    private bool isEffect = false;
     public bool IsOpen() { return isOpen; }
     [SerializeField] bool isDamege = false;
     [SerializeField] GameObject effectPrefab;
     void Update()
     {
         transform.LookAt(_target);
-        StartCoroutine(EffevtCorrctChecst());
+        if (isOpen && !isDamege && !isEffect)
+        {
+            StartCoroutine(EffectCorrctChecst());
+        }
     }
-    public void Open(bool isResule=false)
+    public void Open(bool isResule = false)
     {
         if (isDamege && isResule)
         {
@@ -46,12 +51,25 @@ public class BoxOpen : MonoBehaviour
         seq.Join(lidTransform.DOLocalRotate(Vector3.zero, 1.0f));
         seq.Play();
     }
-    IEnumerator EffevtCorrctChecst()
+    IEnumerator EffectCorrctChecst()
     {
-        if (isOpen && !isDamege)
+        Instantiate(effectPrefab, transform.position + Vector3.up * 1.0f, Quaternion.identity);
+        isEffect = true;
+        yield return new WaitForSeconds(0.2f);
+        isEffect = false;
+    }
+    public void HintLid()
+    {
+        MeshRenderer mesh = lidTransform.GetComponent<MeshRenderer>();
+        if (mesh.material == null)
         {
-            Instantiate(effectPrefab,transform.position+ Vector3.up*1.0f, Quaternion.identity);
+            Debug.Log("lidがありません");
         }
-        yield return new WaitForSeconds(1.5f);    
+        else
+        {
+            Color color = mesh.material.color;
+            color.a = 0f;
+            mesh.material.color=color;
+        }
     }
 }
