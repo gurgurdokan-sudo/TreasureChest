@@ -808,6 +808,8 @@ MonoBehaviour:
   - {fileID: 1639431609}
   - {fileID: 1987885296}
   chestTest: {fileID: 953897863}
+  score: 0
+  scoreManager: {fileID: 1174558916}
   currentPlayer: 0
 --- !u!4 &710941154
 Transform:
@@ -1027,6 +1029,51 @@ Transform:
   - {fileID: 89680662}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1 &1174558915
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1174558917}
+  - component: {fileID: 1174558916}
+  m_Layer: 0
+  m_Name: ScoreManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1174558916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174558915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fa0b2a2253b7314fb24f6ac9c179233, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScoreList: 
+--- !u!4 &1174558917
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174558915}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1296274088
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2251,3 +2298,4 @@ SceneRoots:
   - {fileID: 874472062452578885}
   - {fileID: 346084719656385893}
   - {fileID: 932146944888753041}
+  - {fileID: 1174558917}

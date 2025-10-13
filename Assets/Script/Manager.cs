@@ -7,9 +7,11 @@ using UnityEngine.UIElements;
 using DG.Tweening;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class Manager : MonoBehaviour
 {
+    
     public Transform unityChanTransform;
     UnityChanContorller unityChanContorller;
     Vector3 syoki = new Vector3(0, 0.52f, -6.0f);
@@ -19,8 +21,13 @@ public class Manager : MonoBehaviour
     public BoxOpen[] boxOpens;//各Chest
     public ChestTest chestTest;//シャッフル
     int gameLevle = 1;
-    int life = 3;
+    //注意テスト用に変数を変えています！！！！！！！！！！！！！！！！！！！！！
+    int life = 1;
+    //テスト用にpublicにしています。実装時は消してください
+    public int score = 0;
+    public ScoreManager scoreManager;
     
+
     enum gameStep
     {
         gameStart, waitForPlayerSelct, gameResult, levelCompeete
@@ -28,7 +35,7 @@ public class Manager : MonoBehaviour
     gameStep currentGameStep;
     public enum player
     {
-        selectNone,correct,incorrect
+        selectNone, correct, incorrect
     }
     public player currentPlayer;
     void Start()
@@ -77,7 +84,7 @@ public class Manager : MonoBehaviour
             case gameStep.gameStart:
                 unityChanContorller.isMove = false;
                 GameStart();
-                currentGameStep=gameStep.waitForPlayerSelct;
+                currentGameStep = gameStep.waitForPlayerSelct;
                 break;
             case gameStep.waitForPlayerSelct:
                 WaitForPlayerSelct();
@@ -86,10 +93,19 @@ public class Manager : MonoBehaviour
                 Resule();
                 break;
             case gameStep.levelCompeete:
+
+
                 GameOver();
                 //すべてのゲームを完了sendScene?
                 break;
         }
+        //--------注意デバック用--------
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            life = life - 3;
+        
+        }
+
     }
     void GameStart()
     {
@@ -101,7 +117,7 @@ public class Manager : MonoBehaviour
         sqe.AppendInterval(3.0f);
         sqe.AppendCallback(() => chestTest.ShuffleRandomSelect());
         sqe.AppendInterval(5.0f);
-        sqe.AppendCallback(() => {  unityChanContorller.isMove = true; });
+        sqe.AppendCallback(() => { unityChanContorller.isMove = true; });
         sqe.Play();
     }
     void WaitForPlayerSelct()
@@ -112,6 +128,9 @@ public class Manager : MonoBehaviour
             if (gameLevle < 3) gameLevle++;
             readyTxt.text = "Great!";
             // SingleLidMove(false);
+            
+            scoreManager.SetScore(score++);
+            Debug.Log(score + "メソッド内++位置");
             currentGameStep = gameStep.gameResult;
         }
         if (currentPlayer == player.incorrect)
@@ -120,7 +139,8 @@ public class Manager : MonoBehaviour
             life--;
             LifePanel.instance.UpdateLife(life);
             readyTxt.text = "NG Chast";
-            currentGameStep = gameStep.gameResult; 
+            currentGameStep = gameStep.gameResult;
+
         }
     }
     void Resule()
@@ -133,12 +153,21 @@ public class Manager : MonoBehaviour
         }
         //Levelのカウントアップ/スコア
         if (life > 0) currentGameStep = gameStep.gameStart;//もう一度ゲームステップ
-        else currentGameStep=gameStep.levelCompeete;
+        else
+        {
+            scoreManager.ScoreSort(ref score);
+            currentGameStep = gameStep.levelCompeete;
+        }
     }
     void GameOver()
     {
-        SceneManager.LoadScene("Result");
+
         Debug.Log("gameover");
+        SceneManager.LoadScene("Result");
     }
+
+
 }
+
+
 
