@@ -83,6 +83,8 @@ public class Manager : MonoBehaviour
                 Resule();
                 break;
         }
+
+        
     }
     void GameStart()
     {

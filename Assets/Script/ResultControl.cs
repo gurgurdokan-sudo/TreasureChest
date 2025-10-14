@@ -28,7 +28,7 @@ public class ResultControl : MonoBehaviour
         {
 
           var scoreObj = Instantiate(scorePrefab, scoreParent);
-            scoreObj.text = i + 1+ ":" + scores[i] + "Score";
+            scoreObj.text = i + 1+ "位:" + scores[i] + "Score";
 
 
 
