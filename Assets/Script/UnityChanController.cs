@@ -46,9 +46,10 @@ public class UnityChanController : MonoBehaviour
                         box.Open(true);
                         StartCoroutine(FalseWait());
                         Sequence seq = DOTween.Sequence();
-                        seq.AppendInterval(0.5f);
+                        seq.AppendInterval(1.0f);
                         seq.Append(transform.DOLocalJump(Vector3.back * 2.5f, 1.0f, 2, 1.0f)
                         .SetRelative());
+                        seq.AppendInterval(1.0f);
                         seq.OnComplete(() => manager.currentPlayer = Manager.player.incorrect);
                         seq.Play();
                     }
