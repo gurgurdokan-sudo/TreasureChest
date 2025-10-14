@@ -14,6 +14,7 @@ public class Manager : MonoBehaviour
     public ChestTest chestTest;//シャッフル
     int gameLevle = 1;
     int life = 3;
+    int score = 0;
 
     enum gameStep
     {
@@ -104,6 +105,7 @@ public class Manager : MonoBehaviour
             if (gameLevle < 3) gameLevle++;
             readyTxt.text = "Great!";
             readyTxt.color = Color.yellow;
+            ScoreManager.Instance.SetScore(score++);
             SingleLidMove();
             currentGameStep = gameStep.gameRelode;
         }
@@ -111,6 +113,7 @@ public class Manager : MonoBehaviour
         {
             life--;
             LifePanel.instance.UpdateLife(life);
+            
             SingleLidMove(true);
             readyTxt.text = "NG chest";
             readyTxt.color = Color.red;
@@ -127,7 +130,11 @@ public class Manager : MonoBehaviour
         }
         //Levelのカウントアップ/スコア
         if (life > 0) currentGameStep = gameStep.gameStart;//もう一度ゲームステップ
-        else currentGameStep = gameStep.levelCompeete;
+        else
+        {
+            ScoreManager.Instance.ScoreSort(score);
+            currentGameStep = gameStep.levelCompeete;
+        }
     }
     void Resule()
     {
