@@ -15,10 +15,12 @@ public class HintController : MonoBehaviour
     public void OnClickHint()
     {
         if (isClick) return;
-        if (manager.currentPlayer != Manager.player.selectNone) return;
+        if (manager.currentPlayer != Manager.player.selectNone)
+        {
         manager.OnClickHint();
         image.DOFade(0.1f, 0.5f).SetEase(Ease.OutBounce);
         isClick = true;
+        }
     }
 }
 
