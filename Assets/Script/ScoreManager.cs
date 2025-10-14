@@ -1,20 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
+//---------シングルトンクラス------------
 
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;
     public List<int> ScoreList = new List<int>();
-    int score = 0;
+    int TotalScore = 0;
 
     public void SetScore(int num)
     {
-        score = +num;
+        TotalScore +=num;
     }
     
     public int GetScore()
     {
-        return this.score;
+        return this.TotalScore;
     }
 
     private void Awake()
@@ -28,21 +29,24 @@ public class ScoreManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
     }
 
-      public void ScoreSort(ref int score)
+      public void ScoreSort(int score)
     {
         if (PlayerPrefs.GetInt("HightScore") < score)
         {
             PlayerPrefs.SetInt("HightScore", score);
-            ScoreList.Insert(0, score);
+            // ScoreList.Insert(0, score);
+            ScoreList.Add(score);
+            ScoreList.Sort((a, b) => b.CompareTo(a));
             Debug.Log(score + "ハイスコア判定内");
             Debug.Log(ScoreList[0]);
         }
         else
         {
             ScoreList.Add(score);
-            // ScoreList.Sort((a, b) => b.CompareTo(a));//sort
+            ScoreList.Sort((a, b) => b.CompareTo(a));//sort
             if (ScoreList.Count > 5)
             {
                 ScoreList.RemoveRange(5, ScoreList.Count - 5);

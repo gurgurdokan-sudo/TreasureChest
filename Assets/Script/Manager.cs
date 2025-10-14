@@ -25,7 +25,7 @@ public class Manager : MonoBehaviour
     int life = 1;
     //テスト用にpublicにしています。実装時は消してください
     public int score = 0;
-    public ScoreManager scoreManager;
+    
     
 
     enum gameStep
@@ -93,8 +93,6 @@ public class Manager : MonoBehaviour
                 Resule();
                 break;
             case gameStep.levelCompeete:
-
-
                 GameOver();
                 //すべてのゲームを完了sendScene?
                 break;
@@ -129,7 +127,7 @@ public class Manager : MonoBehaviour
             readyTxt.text = "Great!";
             // SingleLidMove(false);
             
-            scoreManager.SetScore(score++);
+            ScoreManager.Instance.SetScore(score++);
             Debug.Log(score + "メソッド内++位置");
             currentGameStep = gameStep.gameResult;
         }
@@ -155,7 +153,8 @@ public class Manager : MonoBehaviour
         if (life > 0) currentGameStep = gameStep.gameStart;//もう一度ゲームステップ
         else
         {
-            scoreManager.ScoreSort(ref score);
+            Debug.Log(life+"命");
+            ScoreManager.Instance.ScoreSort(score);
             currentGameStep = gameStep.levelCompeete;
         }
     }

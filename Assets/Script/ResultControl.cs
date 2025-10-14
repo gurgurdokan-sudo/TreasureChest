@@ -6,9 +6,10 @@ using UnityEngine.UI;
 
 public class ResultControl : MonoBehaviour
 {
-    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI scorePrefab;
+    public Transform scoreParent;
 
-    //public Text[] scoreText;
+    // Text[] scoreText;
     public TextMeshProUGUI hightScore;
     
 
@@ -25,17 +26,11 @@ public class ResultControl : MonoBehaviour
         
         for (int i = 0; i < scores.Count; i++)
         {
-            /*
-            if (i < scores.Count)
-            {
-                scoreText[i].text = i + 1 + ": " + scores[i];
-            }
-            else
-            {
-                scoreText[i].text = i + 1 + ": ---";
-            }
-*/
-          scoreText.text = i + 1 + ":" + scores[i] + "Score";
+
+          var scoreObj = Instantiate(scorePrefab, scoreParent);
+            scoreObj.text = i + 1+ ":" + scores[i] + "Score";
+
+
 
         }
 
