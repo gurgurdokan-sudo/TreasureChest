@@ -8,15 +8,6 @@ public class ScoreManager : MonoBehaviour
     public List<int> ScoreList = new List<int>();
     int TotalScore = 0;
 
-    public void SetScore(int num)
-    {
-        TotalScore +=num;
-    }
-    
-    public int GetScore()
-    {
-        return this.TotalScore;
-    }
 
     private void Awake()
     {
@@ -29,8 +20,18 @@ public class ScoreManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
     }
+    public void SetScore(int num)
+    {
+        TotalScore += num;
+    }
+    
+    public int GetScore()
+    {
+        return this.TotalScore;
+    }
+
+    
 
       public void ScoreSort(int score)
     {
