@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
+using JetBrains.Annotations;
 
 public class Manager : MonoBehaviour
 {
@@ -13,8 +14,8 @@ public class Manager : MonoBehaviour
     public BoxOpen[] boxOpens;//各Chest
     public ChestTest chestTest;//シャッフル
     int gameLevle = 1;
-    int life = 3;
-    
+    public int life = 3;
+    public UIController uicontroller;
     enum gameStep
     {
         gameStart, waitForPlayerSelct, gameRelode, levelCompeete
@@ -27,12 +28,18 @@ public class Manager : MonoBehaviour
     public player currentPlayer;
     void Start()
     {
+
         readyTxt = canPanel.GetComponentInChildren<TextMeshProUGUI>();
         unityChanContorller = unityChanTransform.GetComponent<UnityChanContorller>();
         unityChanContorller.isMove = false;
         readyTxt.text = "Strat";
         currentGameStep = gameStep.gameStart;
         currentPlayer = player.selectNone;
+        uicontroller.unityChanContorller = unityChanContorller;
+        
+        
+        
+        
     }
     void FullOpen()
     {
@@ -69,10 +76,11 @@ public class Manager : MonoBehaviour
             case gameStep.gameStart:
                 unityChanContorller.isMove = false;
                 GameStart();
-                currentGameStep=gameStep.waitForPlayerSelct;
+                currentGameStep = gameStep.waitForPlayerSelct;
                 break;
             case gameStep.waitForPlayerSelct:
                 WaitForPlayerSelct();
+
                 break;
             case gameStep.gameRelode:
                 ReloadGame();
@@ -81,9 +89,12 @@ public class Manager : MonoBehaviour
                 Resule();
                 break;
         }
+        
     }
     void GameStart()
     {
+        uicontroller.ResetTimer();
+        
         Sequence sqe = DOTween.Sequence();
         sqe.Append(FadeIn());
         sqe.AppendCallback(() => FullOpen());
@@ -92,11 +103,15 @@ public class Manager : MonoBehaviour
         sqe.AppendInterval(3.0f);
         sqe.AppendCallback(() => chestTest.ShuffleRandomSelect());
         sqe.AppendInterval(5.0f);
-        sqe.OnComplete(() => {  unityChanContorller.isMove = true; });
+        sqe.OnComplete(() => { unityChanContorller.isMove = true; });
+        
         sqe.Play();
+        
+        
     }
     void WaitForPlayerSelct()
     {
+        
         if (currentPlayer == player.selectNone) return;//両方選択されずに待機状態
         if (currentPlayer == player.correct)
         {
@@ -126,7 +141,7 @@ public class Manager : MonoBehaviour
         if (life > 0) currentGameStep = gameStep.gameStart;//もう一度ゲームステップ
         else currentGameStep=gameStep.levelCompeete;
     }
-    void Resule()
+    public void Resule()
     {
         SceneManager.LoadScene("Result");
     }
