@@ -1,7 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 using System.Collections;
-using UnityEngine.Rendering;
+
 
 public class BoxOpen : MonoBehaviour
 {
@@ -27,7 +27,6 @@ public class BoxOpen : MonoBehaviour
         if (isDamege && isResule)
         {
             BoxAnimetion();
-            Debug.Log("test");
         }
         else lidTransform.DOLocalRotate(new Vector3(openAngle, 0, 0), duration)
             .SetEase(Ease.OutCubic)
@@ -61,15 +60,11 @@ public class BoxOpen : MonoBehaviour
     public void HintLid()
     {
         MeshRenderer mesh = lidTransform.GetComponent<MeshRenderer>();
-        if (mesh.material == null)
-        {
-            Debug.Log("lidがありません");
-        }
+        if (mesh.material == null) Debug.Log("lidがありません");
         else
         {
-            Color color = mesh.material.color;
-            color.a = 0f;
-            mesh.material.color=color;
+            mesh.material.SetFloat("_Surface", 1);
+            mesh.material.DOFade(0.3f, 3.0f).SetLoops(2,LoopType.Yoyo);
         }
     }
 }

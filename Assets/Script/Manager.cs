@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class Manager : MonoBehaviour
 {
     public Transform unityChanTransform;
-    UnityChanContorller unityChanContorller;
+    UnityChanController unityChanController;
     Vector3 syoki = new Vector3(0, 0.52f, -6.0f);
     public CanvasGroup canPanel;
     TextMeshProUGUI readyTxt;
@@ -28,8 +28,8 @@ public class Manager : MonoBehaviour
     void Start()
     {
         readyTxt = canPanel.GetComponentInChildren<TextMeshProUGUI>();
-        unityChanContorller = unityChanTransform.GetComponent<UnityChanContorller>();
-        unityChanContorller.isMove = false;
+        unityChanController = unityChanTransform.GetComponent<UnityChanController>();
+        unityChanController.isMove = false;
         readyTxt.text = "Start";
         currentGameStep = gameStep.gameStart;
         currentPlayer = player.selectNone;
@@ -68,7 +68,7 @@ public class Manager : MonoBehaviour
         switch (currentGameStep)
         {
             case gameStep.gameStart:
-                unityChanContorller.isMove = false;
+                unityChanController.isMove = false;
                 GameStart();
                 currentGameStep = gameStep.waitForPlayerSelct;
                 break;
@@ -91,9 +91,9 @@ public class Manager : MonoBehaviour
         sqe.AppendInterval(3.0f);
         sqe.AppendCallback(() => FullClose());
         sqe.AppendInterval(3.0f);
-        sqe.AppendCallback(() => chestTest.ShuffleRandomSelect());
+        sqe.AppendCallback(() => chestTest.ShuffleRandomSelect(gameLevle));
         sqe.AppendInterval(5.0f);
-        sqe.OnComplete(() => { unityChanContorller.isMove = true; });
+        sqe.OnComplete(() => { unityChanController.isMove = true; });
         sqe.Play();
     }
     void WaitForPlayerSelct()
@@ -112,7 +112,7 @@ public class Manager : MonoBehaviour
             life--;
             LifePanel.instance.UpdateLife(life);
             SingleLidMove(true);
-            readyTxt.text = "NG Chast";
+            readyTxt.text = "NG chest";
             readyTxt.color = Color.red;
             currentGameStep = gameStep.gameRelode;
         }
@@ -121,7 +121,7 @@ public class Manager : MonoBehaviour
     {
         if (currentPlayer == player.incorrect || currentPlayer == player.correct)
         {
-            unityChanContorller.isMove = false;
+            unityChanController.isMove = false;
             currentPlayer = player.selectNone;
             unityChanTransform.position = syoki;
         }
@@ -135,7 +135,7 @@ public class Manager : MonoBehaviour
     }
     public void OnClickHint()
     {
-        int random = Random.Range(0, 3);
+        int random = Random.Range(0, 1);
         boxOpens[random].HintLid();
     }
 }
