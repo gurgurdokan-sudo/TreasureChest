@@ -83,8 +83,6 @@ public class Manager : MonoBehaviour
                 Resule();
                 break;
         }
-
-        
     }
     void GameStart()
     {
@@ -107,7 +105,7 @@ public class Manager : MonoBehaviour
             if (gameLevle < 3) gameLevle++;
             readyTxt.text = "Great!";
             readyTxt.color = Color.yellow;
-            ScoreManager.Instance.SetScore(score++);
+            ScoreManager.Instance.totalScore+=score;
             SingleLidMove();
             currentGameStep = gameStep.gameRelode;
         }
@@ -134,7 +132,7 @@ public class Manager : MonoBehaviour
         if (life > 0) currentGameStep = gameStep.gameStart;//もう一度ゲームステップ
         else
         {
-            ScoreManager.Instance.ScoreSort(score);
+            ScoreManager.Instance.ScoreSort();
             currentGameStep = gameStep.levelCompeete;
         }
     }

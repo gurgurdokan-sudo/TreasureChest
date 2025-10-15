@@ -4,19 +4,9 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    public static ScoreManager Instance{ get; private set; }
+    public static ScoreManager Instance { get; private set; }
     public List<int> ScoreList = new List<int>();
-    int TotalScore = 0;
-
-    public void SetScore(int num)
-    {
-        TotalScore +=num;
-    }
-    
-    public int GetScore()
-    {
-        return this.TotalScore;
-    }
+    public int totalScore = 0;
 
     private void Awake()
     {
@@ -25,33 +15,19 @@ public class ScoreManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject); // シーンをまたいでも残す
         }
-        else
-        {
-            Destroy(gameObject);
-        }
-        
     }
 
-      public void ScoreSort(int score)
+    public void ScoreSort()
     {
-        if (PlayerPrefs.GetInt("HightScore") < score)
-        {
-            PlayerPrefs.SetInt("HightScore", score);
-            ScoreList.Add(score);
-            ScoreList.Sort((a, b) => b.CompareTo(a));
-            // Debug.Log(score + "ハイスコア判定内");
-            // Debug.Log(ScoreList[0]);
+        ScoreList.Add(totalScore);
+        ScoreList.Sort((a, b) => b.CompareTo(a));
+        if (ScoreList.Count > 5)
+        {//listが５以下なら消去
+            ScoreList.RemoveRange(5, ScoreList.Count - 5);
         }
-        else
-        {
-            ScoreList.Add(score);
-            ScoreList.Sort((a, b) => b.CompareTo(a));//sort
-            if (ScoreList.Count > 5)
-            {
-                ScoreList.RemoveRange(5, ScoreList.Count - 5);
-                // Debug.Log(score + "ランキング処理内");
-                // Debug.Log(ScoreList);
-            }
+        if (PlayerPrefs.GetInt("HightScore") < totalScore)
+        {//ハイスコアを上回るなら上書き　
+            PlayerPrefs.SetInt("HightScore", totalScore);
         }
     }
 }
