@@ -14,14 +14,16 @@ public class Manager : MonoBehaviour
     public ChestTest chestTest;//シャッフル
     int gameLevle = 1;
     int score = 0;
-    public int life = 3;
+    int life = 3;
+    public float time;
+    public bool flag;
     public UIController uicontroller;
 
-    enum gameStep
+    public enum gameStep
     {
         gameStart, waitForPlayerSelct, gameRelode, levelCompeete
     }
-    gameStep currentGameStep;
+    public gameStep currentGameStep;
     public enum player
     {
         selectNone, correct, incorrect
@@ -56,6 +58,7 @@ public class Manager : MonoBehaviour
         if (!isNg) sqe.AppendCallback(() => FullOpen());
         sqe.AppendInterval(1.0f);
         sqe.AppendCallback(() => FullClose());
+        // sqe.OnComplete(()=>);
         sqe.Play();
     }
     Sequence FadeIn()
@@ -84,10 +87,10 @@ public class Manager : MonoBehaviour
                 Resule();
                 break;
         }
+        flag=unityChanController.isMove;
     }
     void GameStart()
     {
-        uicontroller.ResetTimer();
         Sequence sqe = DOTween.Sequence();
         sqe.Append(FadeIn());
         sqe.AppendCallback(() => FullOpen());
@@ -105,21 +108,23 @@ public class Manager : MonoBehaviour
         if (currentPlayer == player.correct)
         {
             if (gameLevle < 3) gameLevle++;
+
+            score = gameLevle * 10 * (int)time*2;
+            ScoreManager.Instance.totalScore+=score;
             readyTxt.text = "Great!";
             readyTxt.color = Color.yellow;
-            ScoreManager.Instance.totalScore+=score;
             SingleLidMove();
-            currentGameStep = gameStep.gameRelode;
+            currentGameStep=gameStep.gameRelode;
         }
         if (currentPlayer == player.incorrect)
         {
             life--;
             LifePanel.instance.UpdateLife(life);
             
-            SingleLidMove(true);
             readyTxt.text = "NG chest";
             readyTxt.color = Color.red;
-            currentGameStep = gameStep.gameRelode;
+            SingleLidMove(true);
+            currentGameStep=gameStep.gameRelode;
         }
     }
     void ReloadGame()
@@ -128,6 +133,7 @@ public class Manager : MonoBehaviour
         {
             unityChanController.isMove = false;
             currentPlayer = player.selectNone;
+            unityChanController.animator.SetFloat("Speed",0);
             unityChanTransform.position = syoki;
         }
         //Levelのカウントアップ/スコア
@@ -144,8 +150,8 @@ public class Manager : MonoBehaviour
     }
     public void OnClickHint()
     {
-        int random = Random.Range(0, 1);
+        int random = Random.Range(0, boxOpens.Length);
         boxOpens[random].HintLid();
-    }
+    } 
 }
 

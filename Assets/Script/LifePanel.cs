@@ -14,7 +14,7 @@ public class LifePanel : MonoBehaviour
     {
         for (int i = 0; i < icons.Length; i++)
         {
-            if (i== life) //lifeは1～3
+            if (i==life) //lifeは1～3
              icons[i].DOFade(0f, 1.0f).SetEase(Ease.OutBounce);
         }
     }

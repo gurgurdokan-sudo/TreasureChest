@@ -3,7 +3,7 @@ using DG.Tweening;
 using UnityEngine;
 public class UnityChanController : MonoBehaviour
 {
-    Animator animator;
+    public Animator animator;
     Vector3 lookDirection;
     public float speed = 1.0f;
     public Manager manager;
@@ -46,7 +46,7 @@ public class UnityChanController : MonoBehaviour
                         box.Open(true);
                         StartCoroutine(FalseWait());
                         Sequence seq = DOTween.Sequence();
-                        seq.AppendInterval(1.0f);
+                        seq.AppendInterval(0.7f);
                         seq.Append(transform.DOLocalJump(Vector3.back * 2.5f, 1.0f, 2, 1.0f)
                         .SetRelative());
                         seq.AppendInterval(1.0f);
@@ -60,9 +60,9 @@ public class UnityChanController : MonoBehaviour
     }
     IEnumerator FalseWait()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.0f);
         animator.SetBool("DownBool", true);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
         animator.SetBool("DownBool", false);
     }
 }

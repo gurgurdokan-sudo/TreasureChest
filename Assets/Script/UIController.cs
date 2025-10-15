@@ -4,54 +4,43 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
-    float limitTimer =10;
+    float limitTimer = 10;
     float maxtime = 10;
     public TextMeshProUGUI TimerText;
     public Image hpGauge;
-    public UnityChanController unityChanContorller;
     public Manager manager;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //unityChanContorller = GetComponent<UnityChanContorller>();
-    
+        Initialize();
     }
 
     void Update()
-    {       
-     HpGauge();
-    }
-
-
-    // Update is called once per frame
-    public void HpGauge()
     {
-        if (unityChanContorller.isMove == true)
+        if (manager.flag)
         {
             limitTimer -= Time.deltaTime;
             if (limitTimer < 0)
             {
                 limitTimer = 0;
                 TimerText.text = "0";
-                if (manager != null)
-                {
-                    // manager.Resule(); // ← Manager に通知
-                }
-                unityChanContorller.isMove = false;
+                manager.currentPlayer = Manager.player.incorrect;
                 return;
             }
-            TimerText.text = limitTimer.ToString("F0");
-
-            hpGauge.fillAmount =limitTimer/maxtime;
         }
-        Debug.Log("Timer呼び出し");
+        if (!manager.flag)
+        {
+            Initialize();
+            manager.time = limitTimer;
+            Debug.Log(manager.time);
+        }
+        TimerText.text = limitTimer.ToString("F0");
+        hpGauge.fillAmount = limitTimer / maxtime;
     }
-    public void ResetTimer()
+    public void Initialize()
     {
-        limitTimer = 10f;
+        limitTimer = maxtime;
         TimerText.text = limitTimer.ToString("F0");
         hpGauge.fillAmount = 1f;
-        
     }
-    
+
 }
