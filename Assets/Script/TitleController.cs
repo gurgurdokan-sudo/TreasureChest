@@ -6,6 +6,7 @@ public class TitleController : MonoBehaviour
 {
     public GameObject target;
     public GameObject obj;
+    
 
     public void ButtonClicked()
     {
@@ -22,16 +23,18 @@ public class TitleController : MonoBehaviour
     void Update()
     {
         target.transform.Rotate(new Vector3(0, 3, 0));
+        obj.transform.Rotate(new Vector3(0, -3, 0));
 
+        
 
     }
 
     void Move()
     {
-        obj.transform.Rotate(new Vector3(0, 0.5f * Time.deltaTime, 0));
+
         Sequence seq = DOTween.Sequence();
-        seq.Append(obj.transform.DOScaleY(0.8f, 0.1f))
-           .Append(obj.transform.DOScaleY(1f, 0.2f))
+        seq.Append(obj.transform.DOScaleY(0.8f, 0.2f))
+           .Append(obj.transform.DOScaleY(1.0f, 0.2f))
            .SetLoops(-1, LoopType.Restart);
 
 
