@@ -34,7 +34,7 @@ public class UIController : MonoBehaviour
                 TimerText.text = "0";
                 if (manager != null)
                 {
-                    manager.Resule(); // ← Manager に通知
+                    // manager.Resule(); // ← Manager に通知
                 }
                 unityChanContorller.isMove = false;
                 return;
