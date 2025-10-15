@@ -103,6 +103,7 @@ public class Manager : MonoBehaviour
         if (currentPlayer == player.selectNone) return;//両方選択されずに待機状態
         if (currentPlayer == player.correct)
         {
+            score += gameLevle * 10;
             if (gameLevle < 3) gameLevle++;
             readyTxt.text = "Great!";
             readyTxt.color = Color.yellow;

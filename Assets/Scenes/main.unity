@@ -857,6 +857,8 @@ MonoBehaviour:
   - {fileID: 1639431609}
   - {fileID: 1987885296}
   chestTest: {fileID: 953897863}
+  life: 3
+  uicontroller: {fileID: 0}
   currentPlayer: 0
 --- !u!4 &710941154
 Transform:
@@ -2397,6 +2399,10 @@ PrefabInstance:
     - target: {fileID: 1997852988163696317, guid: 93a298c180e66bf489264a5d793ea8ff, type: 3}
       propertyPath: m_Name
       value: ScoreManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 5398686250043239844, guid: 93a298c180e66bf489264a5d793ea8ff, type: 3}
+      propertyPath: ScoreList.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5895602258709731255, guid: 93a298c180e66bf489264a5d793ea8ff, type: 3}
       propertyPath: m_LocalPosition.x
