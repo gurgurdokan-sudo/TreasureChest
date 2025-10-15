@@ -4,7 +4,7 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
-    float limitTimer;
+    float limitTimer =10;
     float maxtime = 10;
     public TextMeshProUGUI TimerText;
     public Image hpGauge;

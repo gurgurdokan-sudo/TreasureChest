@@ -87,6 +87,7 @@ public class Manager : MonoBehaviour
     }
     void GameStart()
     {
+        uicontroller.ResetTimer();
         Sequence sqe = DOTween.Sequence();
         sqe.Append(FadeIn());
         sqe.AppendCallback(() => FullOpen());
