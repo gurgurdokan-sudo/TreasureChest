@@ -7349,6 +7349,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1421968604}
     m_Modifications:
     - target: {fileID: 2823604747099622767, guid: 4aad776dcc5b26e4ea72dfb0cfafa9d1, type: 3}
+      propertyPath: m_margin.w
+      value: 12.401691
+      objectReference: {fileID: 0}
+    - target: {fileID: 2823604747099622767, guid: 4aad776dcc5b26e4ea72dfb0cfafa9d1, type: 3}
       propertyPath: m_VerticalAlignment
       value: 512
       objectReference: {fileID: 0}
