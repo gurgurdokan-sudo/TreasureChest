@@ -13,8 +13,9 @@ public class Manager : MonoBehaviour
     public BoxOpen[] boxOpens;//各Chest
     public ChestTest chestTest;//シャッフル
     int gameLevle = 1;
-    int life = 3;
     int score = 0;
+    public int life = 3;
+    public UIController uicontroller;
 
     enum gameStep
     {
