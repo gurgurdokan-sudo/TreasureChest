@@ -7,7 +7,7 @@ public class UIController : MonoBehaviour
     float limitTimer = 10;
     public TextMeshProUGUI TimerText;
     public Image hpGauge;
-    public UnityChanContorller unityChanContorller;
+    public UnityChanController unityChanContorller;
     public Manager manager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
