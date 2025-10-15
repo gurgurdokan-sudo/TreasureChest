@@ -8,12 +8,16 @@ public class ResultControl : MonoBehaviour
     public TextMeshProUGUI scorePrefab;
     public TextMeshProUGUI hightScore; // 命名悪くて申し訳ないですがアタッチするときはHighScoreSet
     public Transform socoreP;
-    
+
     public void OnStartButtonClicked()
     {
         SceneManager.LoadScene("Main");
     }
    
+   public void TitleButtonClicked()
+    {
+        SceneManager.LoadScene("TitleScenes");
+    }
     void Start()
     {
         List<int>  scores = ScoreManager.Instance.ScoreList;
