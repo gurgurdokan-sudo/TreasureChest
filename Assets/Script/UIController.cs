@@ -5,53 +5,54 @@ using TMPro;
 public class UIController : MonoBehaviour
 {
     float limitTimer;
-    float maxtime = 10;
-    public TextMeshProUGUI TimerText;
+    const float maxtime = 10;
     public Image hpGauge;
-    public UnityChanController unityChanContorller;
+    TextMeshProUGUI timerText;
     public Manager manager;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public TextMeshProUGUI scoreText;
+    bool flge=false;
     void Start()
     {
-        //unityChanContorller = GetComponent<UnityChanContorller>();
-    
+        limitTimer = maxtime;
+        timerText = hpGauge.GetComponentInChildren<TextMeshProUGUI>();
+    }
+    void Initialize()
+    {
+        limitTimer = maxtime;
+        timerText.text = limitTimer.ToString("F0");
+        hpGauge.fillAmount = 1f;
+        flge = false;
     }
 
     void Update()
-    {       
-     HpGauge();
-    }
-
-
-    // Update is called once per frame
-    public void HpGauge()
     {
-        if (unityChanContorller.isMove == true)
+        if (manager.flag)
         {
             limitTimer -= Time.deltaTime;
             if (limitTimer < 0)
             {
                 limitTimer = 0;
-                TimerText.text = "0";
+                timerText.text = "0";
                 if (manager != null)
                 {
-                    // manager.Resule(); // ← Manager に通知
+                    
+                    manager.currentPlayer = Manager.player.incorrect;
                 }
-                unityChanContorller.isMove = false;
                 return;
             }
-            TimerText.text = limitTimer.ToString("F0");
+            timerText.text = limitTimer.ToString("F0");
 
-            hpGauge.fillAmount =limitTimer/maxtime;
+            hpGauge.fillAmount = limitTimer / maxtime;
         }
-        Debug.Log("Timer呼び出し");
+        if (manager.currentGameStep == Manager.gameStep.gameRelode)
+        {
+            Initialize();
+            ScoreTextUp(ScoreManager.Instance.totalScore);
+        }
     }
-    public void ResetTimer()
+    void ScoreTextUp(int score)
     {
-        limitTimer = 10f;
-        TimerText.text = limitTimer.ToString("F0");
-        hpGauge.fillAmount = 1f;
         
+        scoreText.text = "Score: "+score;
     }
-    
 }

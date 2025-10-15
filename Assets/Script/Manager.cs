@@ -14,14 +14,12 @@ public class Manager : MonoBehaviour
     public ChestTest chestTest;//シャッフル
     int gameLevle = 1;
     int score = 0;
-    public int life = 3;
-    public UIController uicontroller;
-
-    enum gameStep
+    public bool flag;
+    public enum gameStep
     {
         gameStart, waitForPlayerSelct, gameRelode, levelCompeete
     }
-    gameStep currentGameStep;
+    public gameStep currentGameStep;
     public enum player
     {
         selectNone, correct, incorrect
@@ -67,6 +65,7 @@ public class Manager : MonoBehaviour
     }
     void Update()
     {
+        flag = unityChanController.isMove;
         switch (currentGameStep)
         {
             case gameStep.gameStart:
@@ -112,8 +111,7 @@ public class Manager : MonoBehaviour
         }
         if (currentPlayer == player.incorrect)
         {
-            life--;
-            LifePanel.instance.UpdateLife(life);
+            LifePanel.instance.UpdateLife();
             
             SingleLidMove(true);
             readyTxt.text = "NG chest";
@@ -130,7 +128,7 @@ public class Manager : MonoBehaviour
             unityChanTransform.position = syoki;
         }
         //Levelのカウントアップ/スコア
-        if (life > 0) currentGameStep = gameStep.gameStart;//もう一度ゲームステップ
+        if (LifePanel.instance.life > 0) currentGameStep = gameStep.gameStart;//もう一度ゲームステップ
         else
         {
             ScoreManager.Instance.ScoreSort();
@@ -143,7 +141,7 @@ public class Manager : MonoBehaviour
     }
     public void OnClickHint()
     {
-        int random = Random.Range(0, 1);
+        int random = Random.Range(0, boxOpens.Length);
         boxOpens[random].HintLid();
     }
 }
