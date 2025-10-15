@@ -4,7 +4,8 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
-    float limitTimer = 10;
+    float limitTimer;
+    float maxtime = 10;
     public TextMeshProUGUI TimerText;
     public Image hpGauge;
     public UnityChanContorller unityChanContorller;
@@ -41,7 +42,7 @@ public class UIController : MonoBehaviour
             }
             TimerText.text = limitTimer.ToString("F0");
 
-            hpGauge.fillAmount -= 0.004f;
+            hpGauge.fillAmount =limitTimer/maxtime;
         }
         Debug.Log("Timer呼び出し");
     }
