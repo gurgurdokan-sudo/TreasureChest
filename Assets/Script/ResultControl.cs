@@ -1,40 +1,34 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections.Generic;
 
 public class ResultControl : MonoBehaviour
 {
-    public TextMeshProUGUI scoreText;
-
+    public TextMeshProUGUI scorePrefab;
+    public TextMeshProUGUI hightScore; // 命名悪くて申し訳ないですがアタッチするときはHighScoreSet
+    public Transform socoreP;
+    
     public void OnStartButtonClicked()
     {
         SceneManager.LoadScene("Main");
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+   
     void Start()
     {
+        List<int>  scores = ScoreManager.Instance.ScoreList;
 
-        //まだscoreの仕組みができていないから仮置き。
-        //やる場合は PlayerPrefs.SetInt("score");
-        scoreText.text = PlayerPrefs.GetInt("score") + "score";
-
-
+        hightScore.text = PlayerPrefs.GetInt("HightScore") + "score";
+        
+        for (int i = 0; i < scores.Count; i++)
+        {
+            //変えるな
+            //これは自身のTransfomeではなく登録されたゲームオブジェクトのTransfomを参照して
+            // 自身のフォントサイズを自動的に変えるコンポーネントを使用するためのコードなので
+            // 書き換えると文字サイズおかしくなるから変えないでください
+            TextMeshProUGUI scoreObj = Instantiate( scorePrefab,socoreP);
+            scoreObj.text = i + 1+ "位:" + scores[i] + "Score";
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }
-/*
- if (PlayerPrefs.GetInt("HightScore") < score)
-        {
-            PlayerPrefs.SetInt("HightScore", score);
-        }
-        else
-        {
-            PlayerPrefs.SetInt("score", score);
-        }
-    }
-*/

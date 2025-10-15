@@ -8,7 +8,7 @@ public class UIController : MonoBehaviour
     float maxtime = 10;
     public TextMeshProUGUI TimerText;
     public Image hpGauge;
-    public UnityChanContorller unityChanContorller;
+    public UnityChanController unityChanContorller;
     public Manager manager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,7 +35,7 @@ public class UIController : MonoBehaviour
                 TimerText.text = "0";
                 if (manager != null)
                 {
-                    manager.Resule(); // ← Manager に通知
+                    // manager.Resule(); // ← Manager に通知
                 }
                 unityChanContorller.isMove = false;
                 return;
