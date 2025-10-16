@@ -24,7 +24,7 @@ public class UIController : MonoBehaviour
         {
             limitTimer -= Time.deltaTime;
             itemPanel.DOMoveY(50, 0.3f);
-            hpGauge.GetComponent<RectTransform>().DOMoveY(-50f,0.3f);
+            hpGauge.GetComponent<RectTransform>().DOMoveY(60f,0.3f);
             if (limitTimer < 0)
             {
                 limitTimer = 0;
@@ -39,7 +39,7 @@ public class UIController : MonoBehaviour
             manager.time = limitTimer;
             Debug.Log(manager.time);
             itemPanel.DOMoveY(-50, 0.3f);
-            hpGauge.GetComponent<RectTransform>().DOMoveY(50f,0.3f);
+            hpGauge.GetComponent<RectTransform>().DOMoveY(-60f,0.3f);
         }
         TimerText.text = limitTimer.ToString("F0");
         hpGauge.fillAmount = limitTimer / maxtime;
