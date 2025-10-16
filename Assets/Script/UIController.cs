@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class UIController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI ScoreText;
     public Image hpGauge;
     public Manager manager;
+    public RectTransform itemPanel;
 
     void Start()
     {
@@ -21,6 +23,8 @@ public class UIController : MonoBehaviour
         if (manager.flag)
         {
             limitTimer -= Time.deltaTime;
+            itemPanel.DOMoveY(50, 0.3f);
+            hpGauge.GetComponent<RectTransform>().DOMoveY(-50f,0.3f);
             if (limitTimer < 0)
             {
                 limitTimer = 0;
@@ -34,6 +38,8 @@ public class UIController : MonoBehaviour
             Initialize();
             manager.time = limitTimer;
             Debug.Log(manager.time);
+            itemPanel.DOMoveY(-50, 0.3f);
+            hpGauge.GetComponent<RectTransform>().DOMoveY(50f,0.3f);
         }
         TimerText.text = limitTimer.ToString("F0");
         hpGauge.fillAmount = limitTimer / maxtime;
