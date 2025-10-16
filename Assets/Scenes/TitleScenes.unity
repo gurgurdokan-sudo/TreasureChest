@@ -1348,7 +1348,7 @@ RelativeJoint2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2905095414580779974}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_EnableCollision: 0
   m_ConnectedRigidBody: {fileID: 0}
@@ -1423,7 +1423,7 @@ MonoBehaviour:
   interval: 5
   windPower: 1
   gravity: 0.98
-  isGUI: 1
+  isGUI: 0
 --- !u!114 &2905095414570552054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1699,7 +1699,7 @@ MonoBehaviour:
   - {fileID: 7400000, guid: 01e642e0aae05f34eb0859a0438757a5, type: 2}
   - {fileID: 7400000, guid: aff422e8d7eaec148851692a962b9ba2, type: 2}
   delayWeight: 3
-  isKeepFace: 1
+  isKeepFace: 0
   isGUI: 0
 --- !u!114 &2905095414570568234
 MonoBehaviour:
@@ -2190,7 +2190,7 @@ MonoBehaviour:
   _random: 0
   _threshold: 0.5
   _interval: 10
-  isGUI: 1
+  isGUI: 0
 --- !u!114 &2905095414570612786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2516,7 +2516,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2905095414580779974}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75453f0413251fd42811d1b1eb4728c1, type: 3}
   m_Name: 
@@ -2528,7 +2528,7 @@ MonoBehaviour:
   headWeight: 0.8
   eyesWeight: 1
   clampWeight: 0.5
-  isGUI: 1
+  isGUI: 0
 --- !u!114 &2905095414570644708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7171,7 +7171,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2905095414580779974}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
