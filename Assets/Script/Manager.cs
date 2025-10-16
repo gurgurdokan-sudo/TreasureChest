@@ -12,7 +12,7 @@ public class Manager : MonoBehaviour
     TextMeshProUGUI readyTxt;
     public BoxOpen[] boxOpens;//各Chest
     public ChestTest chestTest;//シャッフル
-    int gameLevle = 1;
+    public int gameLevle = 1;
     int score = 0;
     int life = 3;
     public float time;

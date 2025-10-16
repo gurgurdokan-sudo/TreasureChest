@@ -7,8 +7,10 @@ public class UIController : MonoBehaviour
     float limitTimer = 10;
     float maxtime = 10;
     public TextMeshProUGUI TimerText;
+    public TextMeshProUGUI ScoreText;
     public Image hpGauge;
     public Manager manager;
+
     void Start()
     {
         Initialize();
@@ -35,6 +37,7 @@ public class UIController : MonoBehaviour
         }
         TimerText.text = limitTimer.ToString("F0");
         hpGauge.fillAmount = limitTimer / maxtime;
+        ScoreText.text = "Score:" + ScoreManager.Instance.totalScore + "    level :" + manager.gameLevle;
     }
     public void Initialize()
     {
