@@ -4,24 +4,14 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
-    float limitTimer;
-    const float maxtime = 10;
+    float limitTimer = 10;
+    float maxtime = 10;
+    public TextMeshProUGUI TimerText;
     public Image hpGauge;
-    TextMeshProUGUI timerText;
     public Manager manager;
-    public TextMeshProUGUI scoreText;
-    bool flge=false;
     void Start()
     {
-        limitTimer = maxtime;
-        timerText = hpGauge.GetComponentInChildren<TextMeshProUGUI>();
-    }
-    void Initialize()
-    {
-        limitTimer = maxtime;
-        timerText.text = limitTimer.ToString("F0");
-        hpGauge.fillAmount = 1f;
-        flge = false;
+        Initialize();
     }
 
     void Update()
@@ -32,27 +22,25 @@ public class UIController : MonoBehaviour
             if (limitTimer < 0)
             {
                 limitTimer = 0;
-                timerText.text = "0";
-                if (manager != null)
-                {
-                    
-                    manager.currentPlayer = Manager.player.incorrect;
-                }
+                TimerText.text = "0";
+                manager.currentPlayer = Manager.player.incorrect;
                 return;
             }
-            timerText.text = limitTimer.ToString("F0");
-
-            hpGauge.fillAmount = limitTimer / maxtime;
         }
-        if (manager.currentGameStep == Manager.gameStep.gameRelode)
+        if (!manager.flag)
         {
             Initialize();
-            ScoreTextUp(ScoreManager.Instance.totalScore);
+            manager.time = limitTimer;
+            Debug.Log(manager.time);
         }
+        TimerText.text = limitTimer.ToString("F0");
+        hpGauge.fillAmount = limitTimer / maxtime;
     }
-    void ScoreTextUp(int score)
+    public void Initialize()
     {
-        
-        scoreText.text = "Score: "+score;
+        limitTimer = maxtime;
+        TimerText.text = limitTimer.ToString("F0");
+        hpGauge.fillAmount = 1f;
     }
+
 }

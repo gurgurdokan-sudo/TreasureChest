@@ -4,24 +4,18 @@ using UnityEngine.UI;
 
 public class LifePanel : MonoBehaviour
 {
-    public static LifePanel instance { get; private set; }
-    public int life;
-    const int maxLife = 3;
     public Image[] icons;
+    public static LifePanel instance { get; private set; }
     void Awake()
     {
-        life = maxLife;
         instance = this;
     }
-    public void UpdateLife()
+    public void UpdateLife(int life)
     {
         for (int i = 0; i < icons.Length; i++)
         {
-            if (i == this.life) //lifeは1～3
-            {
-                life -= 1;
-                icons[i].DOFade(0f, 1.0f).SetEase(Ease.OutBounce);
-            }
+            if (i==life) //lifeは1～3
+             icons[i].DOFade(0f, 1.0f).SetEase(Ease.OutBounce);
         }
     }
 }

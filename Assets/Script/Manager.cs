@@ -14,7 +14,11 @@ public class Manager : MonoBehaviour
     public ChestTest chestTest;//シャッフル
     int gameLevle = 1;
     int score = 0;
+    int life = 3;
+    public float time;
     public bool flag;
+    public UIController uicontroller;
+
     public enum gameStep
     {
         gameStart, waitForPlayerSelct, gameRelode, levelCompeete
@@ -54,6 +58,7 @@ public class Manager : MonoBehaviour
         if (!isNg) sqe.AppendCallback(() => FullOpen());
         sqe.AppendInterval(1.0f);
         sqe.AppendCallback(() => FullClose());
+        // sqe.OnComplete(()=>);
         sqe.Play();
     }
     Sequence FadeIn()
@@ -65,7 +70,6 @@ public class Manager : MonoBehaviour
     }
     void Update()
     {
-        flag = unityChanController.isMove;
         switch (currentGameStep)
         {
             case gameStep.gameStart:
@@ -83,6 +87,7 @@ public class Manager : MonoBehaviour
                 Resule();
                 break;
         }
+        flag=unityChanController.isMove;
     }
     void GameStart()
     {
@@ -103,20 +108,23 @@ public class Manager : MonoBehaviour
         if (currentPlayer == player.correct)
         {
             if (gameLevle < 3) gameLevle++;
+
+            score = gameLevle * 10 * (int)time*2;
+            ScoreManager.Instance.totalScore+=score;
             readyTxt.text = "Great!";
             readyTxt.color = Color.yellow;
-            ScoreManager.Instance.totalScore+=score;
             SingleLidMove();
-            currentGameStep = gameStep.gameRelode;
+            currentGameStep=gameStep.gameRelode;
         }
         if (currentPlayer == player.incorrect)
         {
-            LifePanel.instance.UpdateLife();
+            life--;
+            LifePanel.instance.UpdateLife(life);
             
-            SingleLidMove(true);
             readyTxt.text = "NG chest";
             readyTxt.color = Color.red;
-            currentGameStep = gameStep.gameRelode;
+            SingleLidMove(true);
+            currentGameStep=gameStep.gameRelode;
         }
     }
     void ReloadGame()
@@ -125,10 +133,11 @@ public class Manager : MonoBehaviour
         {
             unityChanController.isMove = false;
             currentPlayer = player.selectNone;
+            unityChanController.animator.SetFloat("Speed",0);
             unityChanTransform.position = syoki;
         }
         //Levelのカウントアップ/スコア
-        if (LifePanel.instance.life > 0) currentGameStep = gameStep.gameStart;//もう一度ゲームステップ
+        if (life > 0) currentGameStep = gameStep.gameStart;//もう一度ゲームステップ
         else
         {
             ScoreManager.Instance.ScoreSort();
@@ -143,6 +152,6 @@ public class Manager : MonoBehaviour
     {
         int random = Random.Range(0, boxOpens.Length);
         boxOpens[random].HintLid();
-    }
+    } 
 }
 
