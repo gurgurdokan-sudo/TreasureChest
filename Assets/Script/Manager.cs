@@ -37,6 +37,9 @@ public class Manager : MonoBehaviour
         readyTxt.text = "Start";
         currentGameStep = gameStep.gameStart;
         currentPlayer = player.selectNone;
+        gameLevle = 1;
+        score = 0;
+        life = 3;
     }
     void FullOpen()
     {
